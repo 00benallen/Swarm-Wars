@@ -2,14 +2,15 @@ package objects;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class Base {
-	BufferedImage image;
-	int x, y, width = 32, height = 32, health;
-	Rectangle2D boundBox;
-	int swarmCount;
-	ArrayList<Drone> drones;
+	private BufferedImage image;
+	private int x, y, width = 32, height = 32, health, spawnNum = 10;
+	private Rectangle2D boundBox;
+	private int swarmCount;
+	private ArrayList<Drone> drones;
 	
 	public Base(int x, int y) {
 		//image = ImageIO.read(new File(""));
@@ -18,9 +19,9 @@ public class Base {
 		this.x = x;
 		this.y = y;
 		boundBox = new Rectangle2D.Double(this.x, this.y, this.width, this.height);
-		swarmCount = 0;
+		setSwarmCount(0);
 		drones = new ArrayList<Drone>();
-		health = 50;
+		setHealth(50);
 	}
 	
 	public int getX() {
@@ -56,7 +57,38 @@ public class Base {
 	}
 	
 	public void spawnDrones() {
-		
+		Random rand = new Random();
+		for(int i = 0; i < spawnNum; i++) {
+			int x = rand.nextInt(this.width) + this.x;
+			int y = rand.nextInt(this.height) + this.y;
+			Drone newDrone = new Drone(x, y);
+			drones.add(newDrone);
+			setSwarmCount(getSwarmCount() + 1);
+		}
+	}
+
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
+	}
+
+	public int getSwarmCount() {
+		return swarmCount;
+	}
+
+	public void setSwarmCount(int swarmCount) {
+		this.swarmCount = swarmCount;
+	}
+
+	public BufferedImage getImage() {
+		return image;
+	}
+
+	public void setImage(BufferedImage image) {
+		this.image = image;
 	}
 	
 	

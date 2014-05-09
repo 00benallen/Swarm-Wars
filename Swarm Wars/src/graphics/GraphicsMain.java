@@ -13,15 +13,15 @@ import javax.swing.JFrame;
 public class GraphicsMain extends Canvas implements Runnable  {
 	boolean running = false;
 	JFrame frame;
-	public static final int WIDTH = 1024, HEIGHT = 768, SCALE = 1;
+	public static final int  SCALE = 256, WIDTH = 4 * SCALE, HEIGHT = 3 * SCALE;
 	public static final String NAME = "Swarm Wars";
 	private static Graphics2D g;
 	
 	
 	public GraphicsMain() {
-		setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-		setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+		setMinimumSize(new Dimension(WIDTH, HEIGHT));
+		setMaximumSize(new Dimension(WIDTH, HEIGHT));
+		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setIgnoreRepaint(true);
 		
 		frame = new JFrame(GraphicsMain.NAME);
@@ -111,7 +111,7 @@ public class GraphicsMain extends Canvas implements Runnable  {
 	
 	public static void drawBackground() {
 		g.setColor(Color.black);
-		g.fillRect(0, 0, WIDTH, HEIGHT);
+		g.fillRect(0, 0, WIDTH + 100, HEIGHT + 100);
 	}
 
 }
