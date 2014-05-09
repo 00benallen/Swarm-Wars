@@ -20,7 +20,7 @@ public class Level {
 		this.level = level;
 	}
 	
-	public void setElement(LevelElement newElement) {
+	public void addElement(LevelElement newElement) {
 		level.add(newElement);
 	}
 	

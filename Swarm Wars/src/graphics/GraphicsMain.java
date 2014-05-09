@@ -7,8 +7,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
+
+import objects.Level;
+import objects.LevelElement;
 
 public class GraphicsMain extends Canvas implements Runnable  {
 	boolean running = false;
@@ -107,11 +111,23 @@ public class GraphicsMain extends Canvas implements Runnable  {
 	
 	public static void draw() {
 		drawBackground();
+		drawLevel();
 	}
 	
 	public static void drawBackground() {
 		g.setColor(Color.black);
 		g.fillRect(0, 0, WIDTH + 100, HEIGHT + 100);
+	}
+	
+	public static void drawLevel() {
+		ArrayList<LevelElement> levelList = Main.getLevel1().getLevelArray();
+		for(int i = 0; i < levelList.size(); i++) {
+			LevelElement element = levelList.get(i);
+			if(element != null) {
+				g.drawImage(element.getImage(), element.getX(), element.getY(), element.getWidth(), element.getHeight(), null);
+			}
+		}
+		
 	}
 
 }

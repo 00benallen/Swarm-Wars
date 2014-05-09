@@ -1,17 +1,20 @@
 package game;
 
-import java.io.File;
-
 import objects.Level;
 
 public class Main {
+	private static Level level1;
 	
 	public static void init() {
-		Level level1 = LevelLoader.loadLevel("levels/level1.txt");
+		level1 = LevelLoader.loadLevel("resources/levels/level1");
 	}
 	
 	public static void update() {
 		
+	}
+	
+	public static Level getLevel1() {
+		return level1;
 	}
 
 }

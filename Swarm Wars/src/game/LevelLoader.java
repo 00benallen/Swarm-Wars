@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import objects.Level;
+import objects.Wall;
 
 public class LevelLoader {
 	
@@ -23,10 +24,15 @@ public class LevelLoader {
 			String line = s.nextLine();
 			for(int j = 0; j < line.length(); j++) {
 				if(line.charAt(j) == 'W') {
-					
+					level.addElement(new Wall(j*64, i*64));
+				}
+				else if(line.charAt(j) == '0') {
+					level.addElement(null);
 				}
 			}
 		}
+		
+		return level;
 	}
 
 }
