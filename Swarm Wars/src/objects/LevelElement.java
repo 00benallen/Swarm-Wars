@@ -6,14 +6,6 @@ public abstract class LevelElement {
 	private int x, y, width = 64, height = 64;
 	private BufferedImage image;
 	
-	public LevelElement(int x, int y) {
-		this.setX(x);
-		this.setY(y);
-		
-		//TODO
-		//image = ImageIO.read(new File());
-	}
-
 	public int getX() {
 		return x;
 	}

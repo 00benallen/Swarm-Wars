@@ -6,11 +6,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class Wall extends LevelElement{
+public class Wall extends LevelElement {
+	private int x, y;
 	private Rectangle2D boundBox;
 
 	public Wall(int x, int y) {
-		super(x, y);
+		this.x = x;
+		this.y = y;
 		setBoundBox(new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight()));
 		
 		try {

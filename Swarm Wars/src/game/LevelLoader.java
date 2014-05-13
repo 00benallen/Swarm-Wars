@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import objects.Base;
 import objects.Level;
 import objects.Wall;
 
@@ -26,8 +27,13 @@ public class LevelLoader {
 				if(line.charAt(j) == 'W') {
 					level.addElement(new Wall(j*64, i*64));
 				}
-				else if(line.charAt(j) == '0') {
+				else if(line.charAt(j) == 'O') {
 					level.addElement(null);
+				}
+				else if(line.charAt(j) == 'B') {
+					Base newBase = new Base(j*32 + 64, i*32 + 64);
+					level.addElement(newBase);
+					level.getBases().add(newBase);
 				}
 			}
 		}

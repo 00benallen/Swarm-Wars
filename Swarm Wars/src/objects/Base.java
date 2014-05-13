@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-public class Base {
+public class Base extends LevelElement{
 	private BufferedImage image;
 	private int x, y, width = 32, height = 32, health, spawnNum = 10;
 	private Rectangle2D boundBox;
@@ -13,11 +13,10 @@ public class Base {
 	private ArrayList<Drone> drones;
 	
 	public Base(int x, int y) {
-		//image = ImageIO.read(new File(""));
-		//TODO create image
-		
 		this.x = x;
 		this.y = y;
+		//image = ImageIO.read(new File(""));
+		//TODO create image
 		boundBox = new Rectangle2D.Double(this.x, this.y, this.width, this.height);
 		setSwarmCount(0);
 		drones = new ArrayList<Drone>();

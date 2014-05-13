@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import objects.Base;
 import objects.Level;
 import objects.LevelElement;
 
@@ -112,6 +113,8 @@ public class GraphicsMain extends Canvas implements Runnable  {
 	public static void draw() {
 		drawBackground();
 		drawLevel();
+		//drawBase();
+		drawDrones();
 	}
 	
 	public static void drawBackground() {
@@ -120,7 +123,7 @@ public class GraphicsMain extends Canvas implements Runnable  {
 	}
 	
 	public static void drawLevel() {
-		ArrayList<LevelElement> levelList = Main.getLevel1().getLevelArray();
+		ArrayList<LevelElement> levelList = Main.getLevel().getLevelArray();
 		for(int i = 0; i < levelList.size(); i++) {
 			LevelElement element = levelList.get(i);
 			if(element != null) {
@@ -129,5 +132,14 @@ public class GraphicsMain extends Canvas implements Runnable  {
 		}
 		
 	}
-
+	
+	public static void drawDrones() {
+		ArrayList<Base> bases = Main.getLevel().getBases();
+		for(int i = 0; i < bases.size(); i++) {
+			for(int j = 0; j < bases.get(i).getSwarmCount(); j++) {
+				g.setColor(Color.green);
+				g.fill(bases.get(i).getDrone(j).getBoundBox());
+			}
+		}
+	}
 }

@@ -6,9 +6,12 @@ import graphics.GraphicsMain;
 
 public class Level {
 	private int width = GraphicsMain.WIDTH/64,  height = GraphicsMain.HEIGHT/64;
-	private ArrayList<LevelElement> level = new ArrayList<LevelElement>();
+	private ArrayList<LevelElement> level;
+	private ArrayList<Base> bases;
 	
 	public Level() {
+		level = new ArrayList<LevelElement>();
+		setBases(new ArrayList<Base>());
 		
 	}
 
@@ -46,6 +49,14 @@ public class Level {
 
 	public void setHeight(int height) {
 		this.height = height;
+	}
+
+	public ArrayList<Base> getBases() {
+		return bases;
+	}
+
+	public void setBases(ArrayList<Base> bases) {
+		this.bases = bases;
 	}
 	
 	
