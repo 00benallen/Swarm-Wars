@@ -31,7 +31,7 @@ public class LevelLoader {
 					level.addElement(null);
 				}
 				else if(line.charAt(j) == 'B') {
-					Base newBase = new Base(j*32 + 64, i*32 + 64);
+					Base newBase = new Base(j*64 + 16, i*64 + 16);
 					level.addElement(newBase);
 					level.getBases().add(newBase);
 				}

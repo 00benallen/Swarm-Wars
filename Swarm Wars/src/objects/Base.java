@@ -1,34 +1,35 @@
 package objects;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
 
 
 public class Base extends LevelElement{
 	private BufferedImage image;
-	private int x, y, width = 32, height = 32, health, spawnNum = 10;
+	private int health, spawnNum = 10;
 	private Rectangle2D boundBox;
 	private int swarmCount;
 	private ArrayList<Drone> drones;
 	
 	public Base(int x, int y) {
-		this.x = x;
-		this.y = y;
-		//image = ImageIO.read(new File(""));
-		//TODO create image
-		boundBox = new Rectangle2D.Double(this.x, this.y, this.width, this.height);
+		this.setX(x);
+		this.setY(y);
+		this.setWidth(32);
+		this.setHeight(32);
+		try {
+			image = ImageIO.read(new File("resources/images/base.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		boundBox = new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
 		setSwarmCount(0);
 		drones = new ArrayList<Drone>();
 		setHealth(50);
-	}
-	
-	public int getX() {
-		return x;
-	}
-	
-	public int getY() {
-		return y;
 	}
 	
 	public Rectangle2D getBoundBox() {
@@ -40,26 +41,26 @@ public class Base extends LevelElement{
 	}
 	
 	public void left() {
-		x--;
+		this.setX(this.getX()-1);
 	}
 	
 	public void right() {
-		x++;
+		this.setX(this.getX()+1);
 	}
 	
 	public void up() {
-		y--;
+		this.setY(this.getY()-1);
 	}
 	
 	public void down() {
-		y++ ;
+		this.setY(this.getY()+1);
 	}
 	
 	public void spawnDrones() {
 		Random rand = new Random();
 		for(int i = 0; i < spawnNum; i++) {
-			int x = rand.nextInt(this.width) + this.x;
-			int y = rand.nextInt(this.height) + this.y;
+			int x = rand.nextInt(this.getWidth()) + this.getX();
+			int y = rand.nextInt(this.getHeight()) + this.getY();
 			Drone newDrone = new Drone(x, y);
 			drones.add(newDrone);
 			setSwarmCount(getSwarmCount() + 1);

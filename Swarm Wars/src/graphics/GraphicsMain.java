@@ -113,7 +113,7 @@ public class GraphicsMain extends Canvas implements Runnable  {
 	public static void draw() {
 		drawBackground();
 		drawLevel();
-		//drawBase();
+		drawBases();
 		drawDrones();
 	}
 	
@@ -140,6 +140,14 @@ public class GraphicsMain extends Canvas implements Runnable  {
 				g.setColor(Color.green);
 				g.fill(bases.get(i).getDrone(j).getBoundBox());
 			}
+		}
+	}
+	
+	public static void drawBases() {
+		ArrayList<Base> bases = Main.getLevel().getBases();
+		for(int i = 0; i < bases.size(); i++) {
+			Base newBase = bases.get(i);
+			g.drawImage(newBase.getImage(), newBase.getX(), newBase.getY(), newBase.getWidth(), newBase.getHeight(), null);
 		}
 	}
 }
