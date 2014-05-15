@@ -23,6 +23,7 @@ public class Main {
 		player1 = new Player("Standin");
 		bases = level.getBases();
 		player1.setBase(bases.get(0));
+		selectedElements = new ArrayList<LevelElement>();
 	}
 	
 	public static void update() {
@@ -48,9 +49,13 @@ public class Main {
 	public static void selectItems() {
 		if(GraphicsMain.listener.itemsSelected()) {
 			Rectangle2D selectBox = GraphicsMain.listener.getSelectionBox();
-			for(int i = 0; i < level.getLevelArray().size(); i++) {
-				if(selectBox.contains(level.getLevelArray().get(i).getBoundBox())) {
-					selectedElements.add(level.getLevelArray().get(i));
+			if(selectBox != null) {
+				for(int i = 0; i < level.getLevelArray().size(); i++) {
+					if(level.getLevelArray().get(i) != null) {
+						if(selectBox.contains(level.getLevelArray().get(i).getBoundBox())) {
+							selectedElements.add(level.getLevelArray().get(i));
+						}
+					}
 				}
 			}
 		}

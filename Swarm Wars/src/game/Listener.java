@@ -47,7 +47,7 @@ public class Listener implements MouseListener, MouseMotionListener {
 	public void mouseDragged(MouseEvent e) {
 		mouseDragged = true;
 		itemsSelected = true;
-		selectRect = new Rectangle2D.Double(firstPoint.getX(), firstPoint.getY(), e.getX(), e.getY());
+		selectRect = new Rectangle2D.Double(firstPoint.getX(), firstPoint.getY(), Math.abs(e.getX() - firstPoint.getX()), Math.abs(e.getY() - firstPoint.getY()));
 	}
 
 	@Override

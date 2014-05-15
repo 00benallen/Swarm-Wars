@@ -30,6 +30,8 @@ public class GraphicsMain extends Canvas implements Runnable  {
 		setMaximumSize(new Dimension(WIDTH, HEIGHT));
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setIgnoreRepaint(true);
+		this.addMouseListener(listener);
+		this.addMouseMotionListener(listener);
 		
 		frame = new JFrame(GraphicsMain.NAME);
 		
@@ -41,8 +43,7 @@ public class GraphicsMain extends Canvas implements Runnable  {
 		
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
-		frame.addMouseListener(listener);
-		frame.addMouseMotionListener(listener);
+		
 		frame.setVisible(true);
 	}
 	
@@ -119,6 +120,7 @@ public class GraphicsMain extends Canvas implements Runnable  {
 		drawLevel();
 		drawBases();
 		drawDrones();
+		drawSelectionBox();
 	}
 	
 	public static void drawBackground() {
@@ -152,6 +154,12 @@ public class GraphicsMain extends Canvas implements Runnable  {
 		for(int i = 0; i < bases.size(); i++) {
 			Base newBase = bases.get(i);
 			g.drawImage(newBase.getImage(), newBase.getX(), newBase.getY(), newBase.getWidth(), newBase.getHeight(), null);
+		}
+	}
+	
+	public static void drawSelectionBox() {
+		if(listener.getSelectionBox() != null) {
+			g.draw(listener.getSelectionBox());
 		}
 	}
 }
