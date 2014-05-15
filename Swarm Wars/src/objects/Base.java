@@ -10,9 +10,7 @@ import javax.imageio.ImageIO;
 
 
 public class Base extends LevelElement{
-	private BufferedImage image;
 	private int health, spawnNum = 10;
-	private Rectangle2D boundBox;
 	private int swarmCount;
 	private ArrayList<Drone> drones;
 	
@@ -22,18 +20,14 @@ public class Base extends LevelElement{
 		this.setWidth(32);
 		this.setHeight(32);
 		try {
-			image = ImageIO.read(new File("resources/images/base.png"));
+			this.setImage(ImageIO.read(new File("resources/images/base.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		boundBox = new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+		setBoundBox(new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight()));
 		setSwarmCount(0);
 		drones = new ArrayList<Drone>();
 		setHealth(50);
-	}
-	
-	public Rectangle2D getBoundBox() {
-		return boundBox;
 	}
 	
 	public Drone getDrone(int index) {
@@ -82,15 +76,4 @@ public class Base extends LevelElement{
 	public void setSwarmCount(int swarmCount) {
 		this.swarmCount = swarmCount;
 	}
-
-	public BufferedImage getImage() {
-		return image;
-	}
-
-	public void setImage(BufferedImage image) {
-		this.image = image;
-	}
-	
-	
-
 }

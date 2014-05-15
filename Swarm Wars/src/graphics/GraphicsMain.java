@@ -1,4 +1,5 @@
 package graphics;
+import game.Listener;
 import game.Main;
 
 import java.awt.BorderLayout;
@@ -21,6 +22,7 @@ public class GraphicsMain extends Canvas implements Runnable  {
 	public static final int  SCALE = 256, WIDTH = 4 * SCALE, HEIGHT = 3 * SCALE;
 	public static final String NAME = "Swarm Wars";
 	private static Graphics2D g;
+	public static Listener listener = new Listener();
 	
 	
 	public GraphicsMain() {
@@ -39,6 +41,8 @@ public class GraphicsMain extends Canvas implements Runnable  {
 		
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
+		frame.addMouseListener(listener);
+		frame.addMouseMotionListener(listener);
 		frame.setVisible(true);
 	}
 	

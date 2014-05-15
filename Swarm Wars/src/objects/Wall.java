@@ -7,7 +7,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Wall extends LevelElement {
-	private Rectangle2D boundBox;
 
 	public Wall(int x, int y) {
 		this.setX(x);
@@ -21,13 +20,5 @@ public class Wall extends LevelElement {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public Rectangle2D getBoundBox() {
-		return boundBox;
-	}
-
-	public void setBoundBox(Rectangle2D boundBox) {
-		this.boundBox = boundBox;
 	}
 }

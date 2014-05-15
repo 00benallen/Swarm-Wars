@@ -1,9 +1,13 @@
 package game;
 
+import graphics.GraphicsMain;
+
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import objects.Base;
 import objects.Level;
+import objects.LevelElement;
 import objects.Player;
 
 public class Main {
@@ -11,6 +15,7 @@ public class Main {
 	private static Player player1;
 	private static ArrayList<Base> bases;
 	private static long lastDroneSpawn = System.nanoTime();
+	private static ArrayList<LevelElement> selectedElements;
 	
 	
 	public static void init() {
@@ -22,6 +27,7 @@ public class Main {
 	
 	public static void update() {
 		spawnDrones();
+		selectItems();
 	}
 	
 	public static void spawnDrones() {
@@ -37,6 +43,17 @@ public class Main {
 	
 	public static Level getLevel() {
 		return level;
+	}
+	
+	public static void selectItems() {
+		if(GraphicsMain.listener.itemsSelected()) {
+			Rectangle2D selectBox = GraphicsMain.listener.getSelectionBox();
+			for(int i = 0; i < level.getLevelArray().size(); i++) {
+				if(selectBox.contains(level.getLevelArray().get(i).getBoundBox())) {
+					selectedElements.add(level.getLevelArray().get(i));
+				}
+			}
+		}
 	}
 
 }

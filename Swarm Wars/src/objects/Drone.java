@@ -3,50 +3,39 @@ package objects;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-public class Drone {
+public class Drone extends LevelElement{
 	private BufferedImage image;
-	private int x, y, width = 2, height = 2, damage, health;
-	private Rectangle2D boundBox;
+	private int damage, health;
 	
 	public Drone(int x, int y) {
 		//image = ImageIO.read(new File(""));
 		//TODO add image
 		
-		this.x = x;
-		this.y = y;
+		this.setX(x);
+		this.setY(y);
+		this.setWidth(2);
+		this.setHeight(2);
 		
-		boundBox = new Rectangle2D.Double(this.x, this.y, this.width, this.height);
+		this.setBoundBox(new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight()));
 		setDamage(1);
 		setHealth(1);
 		
 	}
 	
-	public int getX() {
-		return x;
-	}
-	
-	public int getY() {
-		return y;
-	}
-	
-	public Rectangle2D getBoundBox() {
-		return boundBox;
-	}
-	
 	public void left() {
-		x--;
+		this.setX(this.getX()-1);
 	}
 	
 	public void right() {
-		x++;
+		this.setX(this.getX()+1);
 	}
 	
 	public void up() {
-		y--;
+		this.setY(this.getY()-1);
 	}
 	
 	public void down() {
-		y++ ;
+		this.setY(this.getY()+1);
 	}
 
 	public int getDamage() {
