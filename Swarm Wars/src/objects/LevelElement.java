@@ -3,7 +3,7 @@ package objects;
 import java.awt.image.BufferedImage;
 
 public abstract class LevelElement {
-	private int x, y, width = 64, height = 64;
+	private int x, y, width, height;
 	private BufferedImage image;
 	
 	public int getX() {
