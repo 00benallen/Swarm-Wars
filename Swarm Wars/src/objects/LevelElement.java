@@ -7,6 +7,7 @@ public abstract class LevelElement {
 	private int x, y, width, height;
 	private BufferedImage image;
 	private Rectangle2D boundBox;
+	private boolean isBase = false;
 	
 	public int getX() {
 		return x;
@@ -54,5 +55,13 @@ public abstract class LevelElement {
 	
 	public void setBoundBox(Rectangle2D.Double boundBox) {
 		this.boundBox = boundBox;
+	}
+
+	public boolean isBase() {
+		return isBase;
+	}
+
+	public void setBase(boolean isBase) {
+		this.isBase = isBase;
 	}
 }

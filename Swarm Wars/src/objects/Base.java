@@ -19,6 +19,7 @@ public class Base extends LevelElement{
 		this.setY(y);
 		this.setWidth(32);
 		this.setHeight(32);
+		this.setBase(true);
 		try {
 			this.setImage(ImageIO.read(new File("resources/images/base.png")));
 		} catch (IOException e) {

@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import objects.Base;
+import objects.Drone;
 import objects.Level;
 import objects.LevelElement;
 import objects.Player;
@@ -51,13 +52,27 @@ public class Main {
 			Rectangle2D selectBox = GraphicsMain.listener.getSelectionBox();
 			if(selectBox != null) {
 				for(int i = 0; i < level.getLevelArray().size(); i++) {
-					if(level.getLevelArray().get(i) != null) {
-						if(selectBox.contains(level.getLevelArray().get(i).getBoundBox())) {
-							selectedElements.add(level.getLevelArray().get(i));
+					LevelElement element = level.getLevelArray().get(i);
+					if(element != null) {
+						if(!selectedElements.contains(element)) {
+							if(selectBox.contains(element.getBoundBox())) {
+								selectedElements.add(element);
+							}
+						}
+						if(element.isBase()) {
+							for(int j = 0; j < ((Base)element).getSwarmCount(); j++) {
+								Drone drone = ((Base)element).getDrone(j);
+								if(selectBox.contains(drone.getBoundBox()) && !selectedElements.contains(drone)) {
+									selectedElements.add(drone);
+								}
+							}
 						}
 					}
 				}
 			}
+		}
+		else {
+			selectedElements = new ArrayList<LevelElement>();
 		}
 	}
 
