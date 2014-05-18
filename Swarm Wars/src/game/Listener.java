@@ -16,6 +16,7 @@ public class Listener implements MouseListener, MouseMotionListener {
 		itemsSelected = false;
 		selectRect = null;
 		firstPoint = null;
+		Main.setMovePoint(e.getX(), e.getY());
 	}
 
 	@Override
