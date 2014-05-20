@@ -21,22 +21,6 @@ public class Drone extends LevelElement{
 		setHealth(1);
 		
 	}
-	
-	public void left() {
-		this.setX(this.getX()-1);
-	}
-	
-	public void right() {
-		this.setX(this.getX()+1);
-	}
-	
-	public void up() {
-		this.setY(this.getY()-1);
-	}
-	
-	public void down() {
-		this.setY(this.getY()+1);
-	}
 
 	public int getDamage() {
 		return damage;

@@ -17,7 +17,7 @@ public class Main {
 	private static Player player1;
 	private static ArrayList<Base> bases;
 	private static long lastDroneSpawn = System.nanoTime();
-	private static ArrayList<LevelElement> selectedElements;
+	private static ArrayList<LevelElement> selectedElements, movingElements;
 	private static int droneVelocity = 1;
 	private static Vector2D moveVector;
 	private static Point2D movePoint;
@@ -28,6 +28,7 @@ public class Main {
 		bases = level.getBases();
 		player1.setBase(bases.get(0));
 		selectedElements = new ArrayList<LevelElement>();
+		movingElements = new ArrayList<LevelElement>();
 	}
 	
 	public static void update() {
@@ -50,51 +51,28 @@ public class Main {
 	private static void selectItems() {
 		if(GraphicsMain.listener.itemsSelected()) {
 			Rectangle2D selectBox = GraphicsMain.listener.getSelectionBox();
-			for(int i = 0; i < level.getLevelArray().size(); i++) {
-				LevelElement element = level.getLevelArray().get(i);
-				if(element != null) {
-					if(!selectedElements.contains(element)) {
-						if(selectBox.contains(element.getBoundBox())) {
-							selectedElements.add(element);
-						}
+			for(int j = 0; j < bases.size(); j++) {
+				for(int k = 0; k < bases.get(j).getSwarmCount(); k++) {
+					if(selectBox.contains(bases.get(j).getBoundBox()) && !selectedElements.contains(bases.get(j))) {
+						selectedElements.add(bases.get(j));
 					}
-					if(element.isBase()) {
-						for(int j = 0; j < ((Base)element).getSwarmCount(); j++) {
-							Drone drone = ((Base)element).getDrone(j);
-							if(selectBox.contains(drone.getBoundBox()) && !selectedElements.contains(drone)) {
-								selectedElements.add(drone);
-							}
-						}
+					if(selectBox.contains(bases.get(j).getDrone(k).getBoundBox()) && !selectedElements.contains(bases.get(j).getDrone(k))) {
+						selectedElements.add(bases.get(j).getDrone(k));
 					}
 				}
 			}
-		}
-		else {
-			selectedElements = new ArrayList<LevelElement>();
 		}
 	}
 	
 	private static void moveSelectedTo() {
 		if(movePoint != null) {
-			moveVector = new Vector2D((float)movePoint.getX(), (float)movePoint.getY());
-			Vector2D.normalizeVector(moveVector);
-			Vector2D.multiplyByScalar(moveVector, droneVelocity);
 			for(int i = 0; i < selectedElements.size(); i++) {
 				LevelElement element = selectedElements.get(i);
-				if(moveVector.getX() > element.getX()) {
-					element.setX(element.getX() + Math.round(moveVector.getX()));
-				}
-				else {
-					element.setX(element.getX() - Math.round(moveVector.getX()));
-				}
-				
-				if(moveVector.getY() > element.getY()) {
-					element.setY(element.getY() + Math.round(moveVector.getY()));
-				}
-				else {
-					element.setY(element.getY() - Math.round(moveVector.getY()));
-				}
-				
+				moveVector = new Vector2D((float)movePoint.getX() - element.getX(), (float)movePoint.getY() -  element.getY());
+				Vector2D.normalizeVector(moveVector);
+				Vector2D.multiplyByScalar(moveVector, droneVelocity);
+				element.setX(element.getX() + Math.round(moveVector.getX()));
+				element.setY(element.getY() + Math.round(moveVector.getY()));
 			}
 		}
 	}
@@ -105,6 +83,10 @@ public class Main {
 	
 	public static void setMovePoint(int x, int y) {
 		movePoint = new Point2D.Float(x, y);
+	}
+	
+	public static void resetSelection() {
+		selectedElements = new ArrayList<LevelElement>();
 	}
 
 }

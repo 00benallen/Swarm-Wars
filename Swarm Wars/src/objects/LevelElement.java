@@ -15,6 +15,7 @@ public abstract class LevelElement {
 
 	public void setX(int x) {
 		this.x = x;
+		boundBox = new Rectangle2D.Double(this.x, this.y, this.width, this.height);
 	}
 
 	public int getY() {
@@ -23,6 +24,7 @@ public abstract class LevelElement {
 
 	public void setY(int y) {
 		this.y = y;
+		boundBox = new Rectangle2D.Double(this.x, this.y, this.width, this.height);
 	}
 
 	public int getWidth() {
@@ -31,6 +33,7 @@ public abstract class LevelElement {
 
 	public void setWidth(int width) {
 		this.width = width;
+		boundBox = new Rectangle2D.Double(this.x, this.y, this.width, this.height);
 	}
 
 	public int getHeight() {
@@ -39,6 +42,7 @@ public abstract class LevelElement {
 
 	public void setHeight(int height) {
 		this.height = height;
+		boundBox = new Rectangle2D.Double(this.x, this.y, this.width, this.height);
 	}
 
 	public BufferedImage getImage() {

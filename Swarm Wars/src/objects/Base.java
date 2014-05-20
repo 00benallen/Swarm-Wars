@@ -35,22 +35,6 @@ public class Base extends LevelElement{
 		return drones.get(index);
 	}
 	
-	public void left() {
-		this.setX(this.getX()-1);
-	}
-	
-	public void right() {
-		this.setX(this.getX()+1);
-	}
-	
-	public void up() {
-		this.setY(this.getY()-1);
-	}
-	
-	public void down() {
-		this.setY(this.getY()+1);
-	}
-	
 	public void spawnDrones() {
 		Random rand = new Random();
 		for(int i = 0; i < spawnNum; i++) {
