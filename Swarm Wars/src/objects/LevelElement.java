@@ -4,10 +4,10 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 public abstract class LevelElement {
-	private int x, y, width, height;
+	private int x, y, width, height, moveX, moveY;
 	private BufferedImage image;
 	private Rectangle2D boundBox;
-	private boolean isBase = false;
+	private boolean isBase = false, isMoving = false;
 	
 	public int getX() {
 		return x;
@@ -67,5 +67,29 @@ public abstract class LevelElement {
 
 	public void setBase(boolean isBase) {
 		this.isBase = isBase;
+	}
+
+	public int getMoveX() {
+		return moveX;
+	}
+
+	public void setMoveX(int moveX) {
+		this.moveX = moveX;
+	}
+
+	public int getMoveY() {
+		return moveY;
+	}
+
+	public void setMoveY(int moveY) {
+		this.moveY = moveY;
+	}
+
+	public boolean isMoving() {
+		return isMoving;
+	}
+
+	public void setMoving(boolean isMoving) {
+		this.isMoving = isMoving;
 	}
 }

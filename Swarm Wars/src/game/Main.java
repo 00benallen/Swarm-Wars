@@ -17,10 +17,8 @@ public class Main {
 	private static Player player1;
 	private static ArrayList<Base> bases;
 	private static long lastDroneSpawn = System.nanoTime();
-	private static ArrayList<LevelElement> selectedElements, movingElements;
+	private static ArrayList<LevelElement> selectedElements;
 	private static int droneVelocity = 1;
-	private static Vector2D moveVector;
-	private static Point2D movePoint;
 	
 	public static void init() {
 		level = LevelLoader.loadLevel("resources/levels/level1");
@@ -28,7 +26,6 @@ public class Main {
 		bases = level.getBases();
 		player1.setBase(bases.get(0));
 		selectedElements = new ArrayList<LevelElement>();
-		movingElements = new ArrayList<LevelElement>();
 	}
 	
 	public static void update() {
@@ -65,14 +62,27 @@ public class Main {
 	}
 	
 	private static void moveSelectedTo() {
-		if(movePoint != null) {
-			for(int i = 0; i < selectedElements.size(); i++) {
-				LevelElement element = selectedElements.get(i);
-				moveVector = new Vector2D((float)movePoint.getX() - element.getX(), (float)movePoint.getY() -  element.getY());
+		for(int i = 0; i < bases.size(); i++) {
+			LevelElement element = bases.get(i);
+			if(element.isMoving()) {
+				Vector2D moveVector = new Vector2D(element.getMoveX() - element.getX(), element.getMoveY() -  element.getY());
 				Vector2D.normalizeVector(moveVector);
 				Vector2D.multiplyByScalar(moveVector, droneVelocity);
 				element.setX(element.getX() + Math.round(moveVector.getX()));
 				element.setY(element.getY() + Math.round(moveVector.getY()));
+			}
+			if(element instanceof Base) {
+				Base baseElement = (Base) element;
+				for(int j = 0; j < baseElement.getSwarmCount(); j++) {
+					if(element.isMoving()) {
+						element = baseElement.getDrone(j);
+						Vector2D moveVector = new Vector2D(element.getMoveX() - element.getX(), element.getMoveY() -  element.getY());
+						Vector2D.normalizeVector(moveVector);
+						Vector2D.multiplyByScalar(moveVector, droneVelocity);
+						element.setX(element.getX() + Math.round(moveVector.getX()));
+						element.setY(element.getY() + Math.round(moveVector.getY()));
+					}
+				}
 			}
 		}
 	}
@@ -81,8 +91,12 @@ public class Main {
 		return level;
 	}
 	
-	public static void setMovePoint(int x, int y) {
-		movePoint = new Point2D.Float(x, y);
+	public static void setMovePoints(int x, int y) {
+		for(int i = 0; i < selectedElements.size(); i++) {
+			selectedElements.get(i).setMoveX(x);
+			selectedElements.get(i).setMoveY(y);
+			selectedElements.get(i).setMoving(true);
+		}
 	}
 	
 	public static void resetSelection() {
