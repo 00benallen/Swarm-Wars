@@ -2,12 +2,10 @@ package game;
 
 import graphics.GraphicsMain;
 
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import objects.Base;
-import objects.Drone;
 import objects.Level;
 import objects.LevelElement;
 import objects.Player;
@@ -32,6 +30,7 @@ public class Main {
 		spawnDrones();
 		selectItems();
 		moveSelectedTo();
+		checkArrived();
 	}
 	
 	private static void spawnDrones() {
@@ -71,21 +70,47 @@ public class Main {
 				element.setX(element.getX() + Math.round(moveVector.getX()));
 				element.setY(element.getY() + Math.round(moveVector.getY()));
 			}
-			if(element instanceof Base) {
-				Base baseElement = (Base) element;
-				for(int j = 0; j < baseElement.getSwarmCount(); j++) {
-					if(element.isMoving()) {
-						element = baseElement.getDrone(j);
-						Vector2D moveVector = new Vector2D(element.getMoveX() - element.getX(), element.getMoveY() -  element.getY());
-						Vector2D.normalizeVector(moveVector);
-						Vector2D.multiplyByScalar(moveVector, droneVelocity);
-						element.setX(element.getX() + Math.round(moveVector.getX()));
-						element.setY(element.getY() + Math.round(moveVector.getY()));
+			
+			Base baseElement = (Base) element;
+			for(int j = 0; j < baseElement.getSwarmCount(); j++) {
+				element = baseElement.getDrone(j);
+				if(element.isMoving()) {
+					Vector2D moveVector = new Vector2D(element.getMoveX() - element.getX(), element.getMoveY() -  element.getY());
+					Vector2D.normalizeVector(moveVector);
+					Vector2D.multiplyByScalar(moveVector, droneVelocity);
+					element.setX(element.getX() + Math.round(moveVector.getX()));
+					element.setY(element.getY() + Math.round(moveVector.getY()));
+				}
+			}
+		}
+	}
+	
+	public static void checkArrived() {
+		for(int i = 0; i < bases.size(); i++) {
+			LevelElement element = bases.get(i);
+			if(element.isMoving()) {
+				if(element.getX() > element.getMoveX() - 5 && element.getX() < element.getMoveX() + 5) {
+					if(element.getY() > element.getMoveY() - 5 && element.getY() < element.getMoveY() + 5) {
+						element.setMoving(false);
+					}
+				}
+			}
+			
+			Base baseElement = (Base) element;
+			for(int j = 0; j < baseElement.getSwarmCount(); j++) {
+				element = baseElement.getDrone(j);
+				if(element.isMoving()) {
+					if(element.getX() > element.getMoveX() - 30 && element.getX() < element.getMoveX() + 30) {
+						if(element.getY() > element.getMoveY() - 30 && element.getY() < element.getMoveY() + 30) {
+							element.setMoving(false);
+						}
 					}
 				}
 			}
 		}
 	}
+	
+	
 	
 	public static Level getLevel() {
 		return level;

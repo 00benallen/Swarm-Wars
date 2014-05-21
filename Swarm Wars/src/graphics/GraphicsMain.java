@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 
 import objects.Base;
-import objects.Level;
 import objects.LevelElement;
 
 public class GraphicsMain extends Canvas implements Runnable  {
+	private static final long serialVersionUID = 8452193232912354072L;
 	boolean running = false;
 	JFrame frame;
 	public static final int  SCALE = 256, WIDTH = 4 * SCALE, HEIGHT = 3 * SCALE;
