@@ -23,6 +23,7 @@ public class GraphicsMain extends Canvas implements Runnable  {
 	public static final String NAME = "Swarm Wars";
 	private static Graphics2D g;
 	public static Listener listener = new Listener();
+	private static Color[] colorArray = {Color.red, Color.red, Color.blue, Color.cyan, Color.green, Color.magenta, Color.orange, Color.pink, Color.yellow};
 	
 	
 	public GraphicsMain() {
@@ -143,7 +144,7 @@ public class GraphicsMain extends Canvas implements Runnable  {
 		ArrayList<Base> bases = Main.getLevel().getBases();
 		for(int i = 0; i < bases.size(); i++) {
 			for(int j = 0; j < bases.get(i).getSwarmCount(); j++) {
-				g.setColor(Color.green);
+				g.setColor(colorArray[bases.get(i).getDrone(j).getColorID()]);
 				g.fill(bases.get(i).getDrone(j).getBoundBox());
 			}
 		}
@@ -154,6 +155,8 @@ public class GraphicsMain extends Canvas implements Runnable  {
 		for(int i = 0; i < bases.size(); i++) {
 			Base newBase = bases.get(i);
 			g.drawImage(newBase.getImage(), newBase.getX(), newBase.getY(), newBase.getWidth(), newBase.getHeight(), null);
+			g.setColor(colorArray[bases.get(i).getColorID()]);
+			g.fillRect(newBase.getX() + 3, newBase.getY() + 3, newBase.getWidth() - 6, newBase.getHeight() - 6);
 		}
 	}
 	

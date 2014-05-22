@@ -12,13 +12,20 @@ public class Base extends LevelElement{
 	private int health, spawnNum = 10;
 	private int swarmCount;
 	private ArrayList<Drone> drones;
+	private String name;
+	private int colorID;
 	
-	public Base(int x, int y) {
+	public Base(int x, int y, String teamName) {
 		this.setX(x);
 		this.setY(y);
 		this.setWidth(32);
 		this.setHeight(32);
 		this.setBase(true);
+		this.setTeamName(teamName);
+		this.setColorID((Integer.parseInt(name.substring(name.length() - 1, name.length()))));
+		if(name.substring(0, 4).equals("Comp")) {
+			setColorID(getColorID() + 6);
+		}
 		try {
 			this.setImage(ImageIO.read(new File("resources/images/base.png")));
 		} catch (IOException e) {
@@ -39,7 +46,7 @@ public class Base extends LevelElement{
 		for(int i = 0; i < spawnNum; i++) {
 			int x = rand.nextInt(this.getWidth()) + this.getX();
 			int y = rand.nextInt(this.getHeight()) + this.getY();
-			Drone newDrone = new Drone(x, y);
+			Drone newDrone = new Drone(x, y, name);
 			drones.add(newDrone);
 			setSwarmCount(getSwarmCount() + 1);
 		}
@@ -59,5 +66,21 @@ public class Base extends LevelElement{
 
 	public void setSwarmCount(int swarmCount) {
 		this.swarmCount = swarmCount;
+	}
+
+	public String getTeamName() {
+		return name;
+	}
+
+	public void setTeamName(String teamName) {
+		this.name = teamName;
+	}
+
+	public int getColorID() {
+		return colorID;
+	}
+
+	public void setColorID(int colorID) {
+		this.colorID = colorID;
 	}
 }

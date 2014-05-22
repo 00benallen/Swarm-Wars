@@ -20,7 +20,7 @@ public class Main {
 	
 	public static void init() {
 		level = LevelLoader.loadLevel("resources/levels/level1");
-		player1 = new Player("Standin");
+		player1 = new Player("Player1");
 		bases = level.getBases();
 		player1.setBase(bases.get(0));
 		selectedElements = new ArrayList<LevelElement>();
@@ -49,11 +49,13 @@ public class Main {
 			Rectangle2D selectBox = GraphicsMain.listener.getSelectionBox();
 			for(int j = 0; j < bases.size(); j++) {
 				for(int k = 0; k < bases.get(j).getSwarmCount(); k++) {
-					if(selectBox.contains(bases.get(j).getBoundBox()) && !selectedElements.contains(bases.get(j))) {
-						selectedElements.add(bases.get(j));
-					}
-					if(selectBox.contains(bases.get(j).getDrone(k).getBoundBox()) && !selectedElements.contains(bases.get(j).getDrone(k))) {
-						selectedElements.add(bases.get(j).getDrone(k));
+ 					if(bases.get(j).getTeamName().equals(player1.getName())) {
+						if(selectBox.contains(bases.get(j).getBoundBox()) && !selectedElements.contains(bases.get(j))) {
+							selectedElements.add(bases.get(j));
+						}
+						if(selectBox.contains(bases.get(j).getDrone(k).getBoundBox()) && !selectedElements.contains(bases.get(j).getDrone(k))) {
+							selectedElements.add(bases.get(j).getDrone(k));
+						}
 					}
 				}
 			}

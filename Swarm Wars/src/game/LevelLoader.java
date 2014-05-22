@@ -21,6 +21,7 @@ public class LevelLoader {
 		
 		Level level = new Level();
 		
+		int playerCnt = 0 , cmpCnt = 0;
 		for(int i = 0; i < level.getHeight(); i++) {
 			String line = s.nextLine();
 			for(int j = 0; j < line.length(); j++) {
@@ -31,13 +32,19 @@ public class LevelLoader {
 					level.addElement(null);
 				}
 				else if(line.charAt(j) == 'B') {
-					Base newBase = new Base(j*64 + 16, i*64 + 16);
+					playerCnt++;
+					Base newBase = new Base(j*64 + 16, i*64 + 16, "Player" + playerCnt);
+					level.addElement(newBase);
+					level.getBases().add(newBase);
+				}
+				else if(line.charAt(j) == 'C') {
+					cmpCnt++;
+					Base newBase = new Base(j*64 + 16, i*64 + 16, "Comp" + cmpCnt);
 					level.addElement(newBase);
 					level.getBases().add(newBase);
 				}
 			}
 		}
-		
 		return level;
 	}
 
