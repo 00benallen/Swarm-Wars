@@ -155,7 +155,7 @@ public class GraphicsMain extends Canvas implements Runnable  {
 		for(int i = 0; i < bases.size(); i++) {
 			Base newBase = bases.get(i);
 			g.drawImage(newBase.getImage(), newBase.getX(), newBase.getY(), newBase.getWidth(), newBase.getHeight(), null);
-			g.setColor(colorArray[bases.get(i).getColorID()]);
+			g.setColor(colorArray[bases.get(i).getColorID()].darker().darker());
 			g.fillRect(newBase.getX() + 3, newBase.getY() + 3, newBase.getWidth() - 6, newBase.getHeight() - 6);
 		}
 	}

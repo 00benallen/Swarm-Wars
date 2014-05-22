@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import objects.Base;
+import objects.Drone;
 import objects.Level;
 import objects.LevelElement;
 import objects.Player;
@@ -31,6 +32,7 @@ public class Main {
 		selectItems();
 		moveSelectedTo();
 		checkArrived();
+		checkDamage();
 	}
 	
 	private static void spawnDrones() {
@@ -128,6 +130,20 @@ public class Main {
 	
 	public static void resetSelection() {
 		selectedElements = new ArrayList<LevelElement>();
+	}
+	
+	public static void checkDamage() {
+		for(int i = 0; i < bases.size(); i++) {
+			for(int j = 0; j < bases.get(i).getSwarmCount(); j++) {
+				Drone drone = bases.get(i).getDrone(j);
+				for(int k = i + 1; k < bases.size(); k++) {
+					for(int l = 0; l < bases.get(k).getSwarmCount(); l++) {
+						//damage both!
+					}
+				}
+				
+			}
+		}
 	}
 
 }

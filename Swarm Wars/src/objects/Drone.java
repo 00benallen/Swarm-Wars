@@ -15,8 +15,8 @@ public class Drone extends LevelElement{
 		
 		this.setX(x);
 		this.setY(y);
-		this.setWidth(2);
-		this.setHeight(2);
+		this.setWidth(4);
+		this.setHeight(4);
 		this.setTeamName(teamName);
 		this.setColorID((Integer.parseInt(name.substring(name.length() - 1, name.length()))));
 		if(name.substring(0, 4).equals("Comp")) {
@@ -68,8 +68,4 @@ public class Drone extends LevelElement{
 	public void setColorID(int colorID) {
 		this.colorID = colorID;
 	}
-	
-	
-	
-
 }
