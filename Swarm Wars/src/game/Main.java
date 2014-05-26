@@ -33,6 +33,7 @@ public class Main {
 		moveSelectedTo();
 		checkArrived();
 		checkDamage();
+		checkDeath();
 	}
 	
 	private static void spawnDrones() {
@@ -52,10 +53,10 @@ public class Main {
 			for(int j = 0; j < bases.size(); j++) {
 				for(int k = 0; k < bases.get(j).getSwarmCount(); k++) {
  					if(bases.get(j).getTeamName().equals(player1.getName())) {
-						if(selectBox.contains(bases.get(j).getBoundBox()) && !selectedElements.contains(bases.get(j))) {
+						if(selectBox.contains(bases.get(j).getBoundBox()) && !selectedElements.contains(bases.get(j)) && GraphicsMain.listener.rightClick()) {
 							selectedElements.add(bases.get(j));
 						}
-						if(selectBox.contains(bases.get(j).getDrone(k).getBoundBox()) && !selectedElements.contains(bases.get(j).getDrone(k))) {
+						if(selectBox.contains(bases.get(j).getDrone(k).getBoundBox()) && !selectedElements.contains(bases.get(j).getDrone(k)) && !GraphicsMain.listener.rightClick()) {
 							selectedElements.add(bases.get(j).getDrone(k));
 						}
 					}
@@ -93,8 +94,8 @@ public class Main {
 		for(int i = 0; i < bases.size(); i++) {
 			LevelElement element = bases.get(i);
 			if(element.isMoving()) {
-				if(element.getX() > element.getMoveX() - 5 && element.getX() < element.getMoveX() + 5) {
-					if(element.getY() > element.getMoveY() - 5 && element.getY() < element.getMoveY() + 5) {
+				if(element.getX() == element.getMoveX() && element.getX() == element.getMoveX()) {
+					if(element.getY() == element.getMoveY() && element.getY() == element.getMoveY()) {
 						element.setMoving(false);
 					}
 				}
@@ -104,8 +105,8 @@ public class Main {
 			for(int j = 0; j < baseElement.getSwarmCount(); j++) {
 				element = baseElement.getDrone(j);
 				if(element.isMoving()) {
-					if(element.getX() > element.getMoveX() - 30 && element.getX() < element.getMoveX() + 30) {
-						if(element.getY() > element.getMoveY() - 30 && element.getY() < element.getMoveY() + 30) {
+					if(element.getX() == element.getMoveX() && element.getX() == element.getMoveX()) {
+						if(element.getY() == element.getMoveY() && element.getY() == element.getMoveY()) {
 							element.setMoving(false);
 						}
 					}
@@ -138,12 +139,40 @@ public class Main {
 				Drone drone = bases.get(i).getDrone(j);
 				for(int k = i + 1; k < bases.size(); k++) {
 					for(int l = 0; l < bases.get(k).getSwarmCount(); l++) {
-						//damage both!
+						Drone secondDrone = bases.get(k).getDrone(l);
+						if(drone.getX() > secondDrone.getX() - 10 && drone.getX() < secondDrone.getX() + 10) {
+							if(drone.getY() > secondDrone.getY() - 10 && drone.getY() < secondDrone.getY() + 10) {
+								drone.setHealth(drone.getHealth() - 1);
+								secondDrone.setHealth(drone.getHealth() - 1);
+							}
+						}
+						
+						if(drone.getX() > bases.get(i).getX() - 10 && drone.getX() < bases.get(i).getX() + 10) {
+							if(drone.getY() > bases.get(i).getY() - 10 && drone.getY() < bases.get(i).getY() + 10) {
+								if(!drone.getTeamName().equals(bases.get(i).getTeamName())) {
+									bases.get(i).setHealth(bases.get(i).getHealth() - 1);
+								}
+								
+							}
+						}
 					}
 				}
 				
 			}
 		}
+	}
+	
+	public static void checkDeath() {
+		for(int i = 0; i < bases.size(); i++) {
+			for(int j = 0; j < bases.get(i).getSwarmCount(); j++) {
+				if(bases.get(i).getDrone(j).getHealth() <= 0) {
+					bases.get(i).killDrone(j);
+				}
+				if(bases.get(i).getHealth() <= 0) {
+					bases.remove(i);
+				}
+			}
+		} 
 	}
 
 }

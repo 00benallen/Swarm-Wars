@@ -9,13 +9,21 @@ import java.awt.geom.Rectangle2D;
 public class Listener implements MouseListener, MouseMotionListener {
 	private Point2D firstPoint;
 	private Rectangle2D selectRect;
-	private boolean mousePressed, mouseDragged, itemsSelected;
+	private boolean mousePressed, mouseDragged, itemsSelected, rightClick;
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		itemsSelected = false;
 		selectRect = null;
 		firstPoint = null;
+		
+		if(e.getButton() == MouseEvent.BUTTON3) { //right click
+			rightClick = true;
+		}
+		else {
+			rightClick = false;
+		}
+		
 		Main.setMovePoints(e.getX(), e.getY());
 		Main.resetSelection();
 	}
@@ -72,5 +80,9 @@ public class Listener implements MouseListener, MouseMotionListener {
 
 	public boolean itemsSelected() {
 		return itemsSelected;
+	}
+	
+	public boolean rightClick() {
+		return rightClick;
 	}
 }

@@ -38,7 +38,13 @@ public class Base extends LevelElement{
 	}
 	
 	public Drone getDrone(int index) {
+		
 		return drones.get(index);
+	}
+	
+	public void killDrone(int index) {
+		drones.remove(index);
+		swarmCount--;
 	}
 	
 	public void spawnDrones() {
