@@ -23,13 +23,11 @@ public class Main {
 		level = LevelLoader.loadLevel("resources/levels/level1");
 		player1 = new Player("Player1");
 		bases = level.getBases();
-		player1.setBase(bases.get(0));
 		selectedElements = new ArrayList<LevelElement>();
 	}
 	
 	public static void update() {
 		spawnDrones();
-		selectItems();
 		moveSelectedTo();
 		checkArrived();
 		checkDamage();
@@ -47,16 +45,16 @@ public class Main {
 		}
 	}
 	
-	private static void selectItems() {
+	public static void selectItems() {
 		if(GraphicsMain.listener.itemsSelected()) {
 			Rectangle2D selectBox = GraphicsMain.listener.getSelectionBox();
 			for(int j = 0; j < bases.size(); j++) {
 				for(int k = 0; k < bases.get(j).getSwarmCount(); k++) {
  					if(bases.get(j).getTeamName().equals(player1.getName())) {
-						if(selectBox.contains(bases.get(j).getBoundBox()) && !selectedElements.contains(bases.get(j)) && GraphicsMain.listener.rightClick()) {
+						if(selectBox.contains(bases.get(j).getBoundBox()) && !selectedElements.contains(bases.get(j))) {
 							selectedElements.add(bases.get(j));
 						}
-						if(selectBox.contains(bases.get(j).getDrone(k).getBoundBox()) && !selectedElements.contains(bases.get(j).getDrone(k)) && !GraphicsMain.listener.rightClick()) {
+						if(selectBox.contains(bases.get(j).getDrone(k).getBoundBox()) && !selectedElements.contains(bases.get(j).getDrone(k))) {
 							selectedElements.add(bases.get(j).getDrone(k));
 						}
 					}
@@ -121,11 +119,26 @@ public class Main {
 		return level;
 	}
 	
+	public static ArrayList<Base> getBases() {
+		return bases;
+	}
+	
 	public static void setMovePoints(int x, int y) {
 		for(int i = 0; i < selectedElements.size(); i++) {
-			selectedElements.get(i).setMoveX(x);
-			selectedElements.get(i).setMoveY(y);
-			selectedElements.get(i).setMoving(true);
+			boolean dronesMove, baseMove;
+			if(GraphicsMain.listener.rightClick()) {
+				dronesMove = false;
+				baseMove = true;
+			}
+			else {
+				dronesMove = true;
+				baseMove = false;
+			}
+			if((selectedElements.get(i) instanceof Base && baseMove) || (selectedElements.get(i) instanceof Drone && dronesMove)) {
+				selectedElements.get(i).setMoveX(x);
+				selectedElements.get(i).setMoveY(y);
+				selectedElements.get(i).setMoving(true);
+			}
 		}
 	}
 	
@@ -146,20 +159,26 @@ public class Main {
 								secondDrone.setHealth(drone.getHealth() - 1);
 							}
 						}
-						
-						if(drone.getX() > bases.get(i).getX() - 10 && drone.getX() < bases.get(i).getX() + 10) {
-							if(drone.getY() > bases.get(i).getY() - 10 && drone.getY() < bases.get(i).getY() + 10) {
-								if(!drone.getTeamName().equals(bases.get(i).getTeamName())) {
-									bases.get(i).setHealth(bases.get(i).getHealth() - 1);
-								}
-								
-							}
+					}
+				}
+			}
+		}
+		
+		for(int i = 0; i < bases.size(); i++) {
+			Base checkBase = bases.get(i);
+			for(int j = 0; j < bases.size() - 1; j++) {
+				for(int k = 0; k < bases.get(j).getSwarmCount(); k++) {
+
+					Drone checkDrone = bases.get(j).getDrone(k);
+
+					if(checkDrone.getX() > checkBase.getX() - 50 && checkDrone.getX() < checkBase.getX() + 50) {
+						if(checkDrone.getY() > checkBase.getY() - 50 && checkDrone.getY() < checkBase.getY() + 50) {
+							checkBase.setHealth(checkBase.getHealth() - 1);
 						}
 					}
 				}
-				
 			}
-		}
+		} 
 	}
 	
 	public static void checkDeath() {
@@ -168,9 +187,9 @@ public class Main {
 				if(bases.get(i).getDrone(j).getHealth() <= 0) {
 					bases.get(i).killDrone(j);
 				}
-				if(bases.get(i).getHealth() <= 0) {
-					bases.remove(i);
-				}
+			}
+			if(bases.get(i).getHealth() <= 0) {
+				bases.remove(i);
 			}
 		} 
 	}

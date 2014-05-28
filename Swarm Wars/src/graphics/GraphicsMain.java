@@ -133,7 +133,7 @@ public class GraphicsMain extends Canvas implements Runnable  {
 		ArrayList<LevelElement> levelList = Main.getLevel().getLevelArray();
 		for(int i = 0; i < levelList.size(); i++) {
 			LevelElement element = levelList.get(i);
-			if(element != null) {
+			if(element != null && !(element instanceof Base)) {
 				g.drawImage(element.getImage(), element.getX(), element.getY(), element.getWidth(), element.getHeight(), null);
 			}
 		}
@@ -151,7 +151,7 @@ public class GraphicsMain extends Canvas implements Runnable  {
 	}
 	
 	public static void drawBases() {
-		ArrayList<Base> bases = Main.getLevel().getBases();
+		ArrayList<Base> bases = Main.getBases();
 		for(int i = 0; i < bases.size(); i++) {
 			Base newBase = bases.get(i);
 			g.drawImage(newBase.getImage(), newBase.getX(), newBase.getY(), newBase.getWidth(), newBase.getHeight(), null);

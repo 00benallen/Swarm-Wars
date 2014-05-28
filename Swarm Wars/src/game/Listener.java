@@ -13,6 +13,7 @@ public class Listener implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+	
 		itemsSelected = false;
 		selectRect = null;
 		firstPoint = null;
@@ -58,6 +59,7 @@ public class Listener implements MouseListener, MouseMotionListener {
 		mouseDragged = true;
 		itemsSelected = true;
 		selectRect = new Rectangle2D.Double(Math.min(firstPoint.getX(), e.getX()), Math.min(firstPoint.getY(), e.getY()), Math.abs(firstPoint.getX() - e.getX()), Math.abs(firstPoint.getY() - e.getY()));
+		Main.selectItems();
 	}
 
 	@Override
