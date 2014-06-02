@@ -112,9 +112,15 @@ public class Main {
 			}
 			
 			for(int j = 0; j < level.getLevelArray().size(); j++) {
-				
-				if(element.getBoundBox().intersects(level.getLevelArray().get(j).getBoundBox())) {
-					element.setMoving(false);
+				if(element != null && level.getLevelArray().get(j) != null && !(level.getLevelArray().get(j) instanceof Base)) {
+					if(element.getBoundBox().intersects(level.getLevelArray().get(j).getBoundBox())) {
+						element.setMoving(false);
+					}
+					for(int k = 0; k < baseElement.getSwarmCount(); k++) {
+						if(baseElement.getDrone(k).getBoundBox().intersects(level.getLevelArray().get(j).getBoundBox())) {
+							baseElement.getDrone(k).setMoving(false);
+						}
+					}
 				}
 			}
 		}
