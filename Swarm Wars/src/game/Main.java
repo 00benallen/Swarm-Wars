@@ -45,12 +45,12 @@ public class Main {
 		}
 	}
 	
-	public static void selectItems() {
+	public static void selectItems(String teamName) {
 		if(GraphicsMain.listener.itemsSelected()) {
 			Rectangle2D selectBox = GraphicsMain.listener.getSelectionBox();
 			for(int j = 0; j < bases.size(); j++) {
 				for(int k = 0; k < bases.get(j).getSwarmCount(); k++) {
- 					if(bases.get(j).getTeamName().equals(player1.getName())) {
+ 					if(bases.get(j).getTeamName().equals(teamName)) {
 						if(selectBox.contains(bases.get(j).getBoundBox()) && !selectedElements.contains(bases.get(j))) {
 							selectedElements.add(bases.get(j));
 						}
@@ -110,6 +110,13 @@ public class Main {
 					}
 				}
 			}
+			
+			for(int j = 0; j < level.getLevelArray().size(); j++) {
+				
+				if(element.getBoundBox().intersects(level.getLevelArray().get(j).getBoundBox())) {
+					element.setMoving(false);
+				}
+			}
 		}
 	}
 	
@@ -156,7 +163,9 @@ public class Main {
 						if(drone.getX() > secondDrone.getX() - 10 && drone.getX() < secondDrone.getX() + 10) {
 							if(drone.getY() > secondDrone.getY() - 10 && drone.getY() < secondDrone.getY() + 10) {
 								drone.setHealth(drone.getHealth() - 1);
+								drone.setMoving(false);
 								secondDrone.setHealth(drone.getHealth() - 1);
+								secondDrone.setMoving(false);
 							}
 						}
 					}
@@ -171,9 +180,11 @@ public class Main {
 
 					Drone checkDrone = bases.get(j).getDrone(k);
 
-					if(checkDrone.getX() > checkBase.getX() - 50 && checkDrone.getX() < checkBase.getX() + 50) {
-						if(checkDrone.getY() > checkBase.getY() - 50 && checkDrone.getY() < checkBase.getY() + 50) {
-							checkBase.setHealth(checkBase.getHealth() - 1);
+					if(checkDrone.getX() > checkBase.getCentreX() - 25 && checkDrone.getX() < checkBase.getCentreX() + 25) {
+						if(checkDrone.getY() > checkBase.getCentreY() - 25 && checkDrone.getY() < checkBase.getCentreY() + 25) {
+							if(!checkDrone.getTeamName().equals(checkBase.getTeamName())) {
+								checkBase.setHealth(checkBase.getHealth() - 1);
+							}
 						}
 					}
 				}

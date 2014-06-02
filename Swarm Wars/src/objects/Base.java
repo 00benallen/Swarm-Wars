@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 
 
 public class Base extends LevelElement{
-	private int health, spawnNum = 10;
+	private int health, spawnNum = 10, centreX, centreY;
 	private int swarmCount;
 	private ArrayList<Drone> drones;
 	private String name;
@@ -26,6 +26,8 @@ public class Base extends LevelElement{
 		if(name.substring(0, 4).equals("Comp")) {
 			setColorID(getColorID() + 6);
 		}
+		centreX = this.getX() + this.getWidth()/2;
+		centreY = this.getY() + this.getHeight()/2;
 		try {
 			this.setImage(ImageIO.read(new File("resources/images/base.png")));
 		} catch (IOException e) {
@@ -88,5 +90,21 @@ public class Base extends LevelElement{
 
 	public void setColorID(int colorID) {
 		this.colorID = colorID;
+	}
+
+	public int getCentreX() {
+		return centreX;
+	}
+
+	public void setCentreX(int centreX) {
+		this.centreX = centreX;
+	}
+
+	public int getCentreY() {
+		return centreY;
+	}
+
+	public void setCentreY(int centreY) {
+		this.centreY = centreY;
 	}
 }
