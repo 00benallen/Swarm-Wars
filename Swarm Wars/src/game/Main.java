@@ -28,7 +28,7 @@ public class Main {
 	
 	public static void update() {
 		spawnDrones();
-		moveSelectedTo();
+		moveAllTo();
 		checkArrived();
 		checkDamage();
 		checkDeath();
@@ -63,7 +63,7 @@ public class Main {
 		}
 	}
 	
-	private static void moveSelectedTo() {
+	private static void moveAllTo() {
 		for(int i = 0; i < bases.size(); i++) {
 			LevelElement element = bases.get(i);
 			if(element.isMoving()) {
