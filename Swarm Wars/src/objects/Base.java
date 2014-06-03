@@ -1,4 +1,5 @@
 package objects;
+import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
@@ -9,25 +10,21 @@ import javax.imageio.ImageIO;
 
 
 public class Base extends LevelElement{
-	private int health, spawnNum = 10, centreX, centreY;
+	private int health, spawnNum = 10;
 	private int swarmCount;
 	private ArrayList<Drone> drones;
 	private String name;
-	private int colorID;
+	private Color color;
 	
-	public Base(int x, int y, String teamName) {
+	public Base(int x, int y, String teamName, Color color) {
 		this.setX(x);
 		this.setY(y);
 		this.setWidth(32);
 		this.setHeight(32);
 		this.setBase(true);
 		this.setTeamName(teamName);
-		this.setColorID((Integer.parseInt(name.substring(name.length() - 1, name.length()))));
-		if(name.substring(0, 4).equals("Comp")) {
-			setColorID(getColorID() + 6);
-		}
-		centreX = this.getX() + this.getWidth()/2;
-		centreY = this.getY() + this.getHeight()/2;
+		this.setCentreX(this.getX() + this.getWidth()/2);
+		this.setCentreY(this.getY() + this.getHeight()/2);
 		try {
 			this.setImage(ImageIO.read(new File("resources/images/base.png")));
 		} catch (IOException e) {
@@ -36,9 +33,10 @@ public class Base extends LevelElement{
 		setBoundBox(new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight()));
 		setSwarmCount(0);
 		drones = new ArrayList<Drone>();
-		setHealth(50);
+		setHealth(500);
+		this.color = color;
 	}
-	
+
 	public Drone getDrone(int index) {
 		
 		return drones.get(index);
@@ -84,27 +82,11 @@ public class Base extends LevelElement{
 		this.name = teamName;
 	}
 
-	public int getColorID() {
-		return colorID;
+	public Color getColor() {
+		return color;
 	}
 
-	public void setColorID(int colorID) {
-		this.colorID = colorID;
-	}
-
-	public int getCentreX() {
-		return centreX;
-	}
-
-	public void setCentreX(int centreX) {
-		this.centreX = centreX;
-	}
-
-	public int getCentreY() {
-		return centreY;
-	}
-
-	public void setCentreY(int centreY) {
-		this.centreY = centreY;
+	public void setColor(Color color) {
+		this.color = color;
 	}
 }

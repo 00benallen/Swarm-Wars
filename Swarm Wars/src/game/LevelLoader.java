@@ -1,7 +1,9 @@
 package game;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Random;
 import java.util.Scanner;
 
 import objects.Base;
@@ -22,6 +24,7 @@ public class LevelLoader {
 		Level level = new Level();
 		
 		int playerCnt = 0 , cmpCnt = 0;
+		Random rand = new Random();
 		for(int i = 0; i < level.getHeight(); i++) {
 			String line = s.nextLine();
 			for(int j = 0; j < line.length(); j++) {
@@ -33,13 +36,13 @@ public class LevelLoader {
 				}
 				else if(line.charAt(j) == 'B') {
 					playerCnt++;
-					Base newBase = new Base(j*64 + 16, i*64 + 16, "Player" + playerCnt);
+					Base newBase = new Base(j*64 + 16, i*64 + 16, "Player" + playerCnt, new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)));
 					level.addElement(newBase);
 					level.getBases().add(newBase);
 				}
 				else if(line.charAt(j) == 'C') {
 					cmpCnt++;
-					Base newBase = new Base(j*64 + 16, i*64 + 16, "Comp" + cmpCnt);
+					Base newBase = new Base(j*64 + 16, i*64 + 16, "Comp" + cmpCnt, new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)));
 					level.addElement(newBase);
 					level.getBases().add(newBase);
 				}

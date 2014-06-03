@@ -14,6 +14,7 @@ import objects.Player;
 public class Main {
 	private static Level level;
 	private static Player player1;
+	private static ArrayList<Computer> computers = new ArrayList<Computer>();
 	private static ArrayList<Base> bases;
 	private static long lastDroneSpawn = System.nanoTime();
 	private static ArrayList<LevelElement> selectedElements;
@@ -24,6 +25,12 @@ public class Main {
 		player1 = new Player("Player1");
 		bases = level.getBases();
 		selectedElements = new ArrayList<LevelElement>();
+		
+		for(int i = 0; i < bases.size(); i++) {
+			if(bases.get(i).getTeamName().substring(0, 4).equals("Comp")) {
+				computers.add(new Computer(bases.get(i).getTeamName(), bases.get(i)));
+			}
+		}
 	}
 	
 	public static void update() {
@@ -32,6 +39,7 @@ public class Main {
 		checkArrived();
 		checkDamage();
 		checkDeath();
+		runAIs();
 	}
 	
 	private static void spawnDrones() {
@@ -45,12 +53,12 @@ public class Main {
 		}
 	}
 	
-	public static void selectItems(String teamName) {
+	public static void selectItems() {
 		if(GraphicsMain.listener.itemsSelected()) {
 			Rectangle2D selectBox = GraphicsMain.listener.getSelectionBox();
 			for(int j = 0; j < bases.size(); j++) {
 				for(int k = 0; k < bases.get(j).getSwarmCount(); k++) {
- 					if(bases.get(j).getTeamName().equals(teamName)) {
+ 					if(bases.get(j).getTeamName().equals(player1.getName())) {
 						if(selectBox.contains(bases.get(j).getBoundBox()) && !selectedElements.contains(bases.get(j))) {
 							selectedElements.add(bases.get(j));
 						}
@@ -209,6 +217,12 @@ public class Main {
 				bases.remove(i);
 			}
 		} 
+	}
+	
+	public static void runAIs() {
+		for(int i = 0; i < computers.size(); i++) {
+			computers.get(i).runAI();
+		}
 	}
 
 }

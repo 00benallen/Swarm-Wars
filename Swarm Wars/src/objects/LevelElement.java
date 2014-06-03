@@ -4,7 +4,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 public abstract class LevelElement {
-	private int x, y, width, height, moveX, moveY;
+	private int x, y, width, height, moveX, moveY, centreX, centreY;
 	private BufferedImage image;
 	private Rectangle2D boundBox;
 	private boolean isBase = false, isMoving = false;
@@ -16,6 +16,7 @@ public abstract class LevelElement {
 	public void setX(int x) {
 		this.x = x;
 		boundBox = new Rectangle2D.Double(this.x, this.y, this.width, this.height);
+		this.centreX = this.getX() + this.getWidth()/2;
 	}
 
 	public int getY() {
@@ -25,6 +26,7 @@ public abstract class LevelElement {
 	public void setY(int y) {
 		this.y = y;
 		boundBox = new Rectangle2D.Double(this.x, this.y, this.width, this.height);
+		this.centreY = this.getY() + this.getHeight()/2;
 	}
 
 	public int getWidth() {
@@ -91,5 +93,21 @@ public abstract class LevelElement {
 
 	public void setMoving(boolean isMoving) {
 		this.isMoving = isMoving;
+	}
+	
+	public int getCentreX() {
+		return centreX;
+	}
+
+	public void setCentreX(int centreX) {
+		this.centreX = centreX;
+	}
+
+	public int getCentreY() {
+		return centreY;
+	}
+
+	public void setCentreY(int centreY) {
+		this.centreY = centreY;
 	}
 }

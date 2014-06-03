@@ -32,79 +32,107 @@ public class Computer {
 		return teamName;
 	}
 	
-	private boolean hasEnemy, isHit, isHurt, attacking;
+	private boolean hasEnemy, isHit, isHurt, attacking, victory;
+	private Base enemyBase = null;
 	private int prevHealth = -1;
 	public void runAI() {
-		String enemyName;
-		Base enemyBase = null;
 		ArrayList<Base> bases = Main.getBases();
 		ArrayList<LevelElement> selectedElements = new ArrayList<LevelElement>();
 		
-		if(!hasEnemy) {
-			double minDistance = 10000;
-			for(int i = 0; i < bases.size(); i++) {
-				Base curBase = bases.get(i);
-				double curDistance = Point2D.distance(this.x, this.y, curBase.getX(), curBase.getX());
-				if(curDistance < minDistance && !curBase.getTeamName().equals(this.teamName)) {
-					enemyName = curBase.getTeamName();
-					enemyBase = curBase;
+		if(!victory) {
+			if(!hasEnemy) {
+				double minDistance = 10000;
+				for(int i = 0; i < bases.size(); i++) {
+					Base curBase = bases.get(i);
+					double curDistance = Point2D.distance(this.x, this.y, curBase.getX(), curBase.getX());
+					if(curDistance < minDistance && !curBase.getTeamName().equals(this.teamName)) {
+						enemyBase = curBase;
+						minDistance = curDistance;
+					}
 				}
+				hasEnemy = true;
 			}
-			hasEnemy = true;
-		}
-		
-		if(hasEnemy && !isHurt) {
-			attacking = true;
-		}
-		else {
-			attacking = false;
-		}
-		
-		if(attacking) {
-			Rectangle2D selectBox = new Rectangle2D.Double(this.x, this.y, this.width, this.height);
-			for(int j = 0; j < bases.size(); j++) {
-				for(int k = 0; k < bases.get(j).getSwarmCount(); k++) {
-					if(bases.get(j).getTeamName().equals(this.teamName)) {
-						if(selectBox.contains(bases.get(j).getBoundBox()) && !selectedElements.contains(bases.get(j))) {
-							selectedElements.add(bases.get(j));
+			
+			if(hasEnemy && !isHurt) {
+				attacking = true;
+			}
+			else {
+				attacking = false;
+			}
+			
+			if(attacking) {
+				Rectangle2D selectBox = new Rectangle2D.Double(this.x, this.y, this.width, this.height);
+				for(int j = 0; j < bases.size(); j++) {
+					for(int k = 0; k < bases.get(j).getSwarmCount(); k++) {
+						if(bases.get(j).getDrone(k).getTeamName().equals(this.teamName)) {
+							if(selectBox.contains(bases.get(j).getDrone(k).getBoundBox()) && !selectedElements.contains(bases.get(j).getDrone(k))) {
+								selectedElements.add(bases.get(j).getDrone(k));
+							}
 						}
 					}
 				}
+				
+				for(int i = 0; i < selectedElements.size(); i++) {
+					selectedElements.get(i).setMoveX(enemyBase.getX());
+					selectedElements.get(i).setMoveY(enemyBase.getY());
+					selectedElements.get(i).setMoving(true);
+				}
 			}
 			
-			for(int i = 0; i < selectedElements.size(); i++) {
-				selectedElements.get(i).setMoveX(enemyBase.getX());
-				selectedElements.get(i).setMoveY(enemyBase.getY());
-				selectedElements.get(i).setMoving(true);
-			}
-		}
-		
-		if(prevHealth == -1) {
-			prevHealth = this.base.getHealth();
-		}
-		else {
-			if(prevHealth < base.getHealth() && base.isMoving() == false) {
-				isHit = true;
-			}
-		}
-		
-		if(base.getHealth() < 25) {
-			isHurt = true;
-		}
-		
-		if(isHit && !base.isMoving()) {
-			if(base.getX() + 10 < GraphicsMain.WIDTH) {
-				this.base.setMoveX(base.getX() + 10);
+			if(prevHealth == -1) {
+				prevHealth = this.base.getHealth();
 			}
 			else {
-				this.base.setMoveX(base.getX() - 10);
+				if(prevHealth < base.getHealth() && base.isMoving() == false) {
+					isHit = true;
+				}
 			}
-			isHit = false;
-			base.setMoving(true);
-		}
-		
-		if(isHurt) {
 			
+			if(base.getHealth() < 25) {
+				isHurt = true;
+			}
+			
+			if(isHit && !base.isMoving()) {
+				if(base.getX() + 10 < GraphicsMain.WIDTH) {
+					this.base.setMoveX(base.getX() + 10);
+				}
+				else {
+					this.base.setMoveX(base.getX() - 10);
+				}
+				isHit = false;
+				base.setMoving(true);
+			}
+			
+			if(isHurt) {
+				attacking = false;
+				Rectangle2D selectBox = new Rectangle2D.Double(this.x, this.y, this.width, this.height);
+				for(int j = 0; j < bases.size(); j++) {
+					for(int k = 0; k < bases.get(j).getSwarmCount(); k++) {
+						if(bases.get(j).getTeamName().equals(this.teamName)) {
+							if(selectBox.contains(bases.get(j).getBoundBox()) && !selectedElements.contains(bases.get(j))) {
+								selectedElements.add(bases.get(j));
+							}
+						}
+					}
+				}
+				
+				for(int i = 0; i < selectedElements.size(); i++) {
+					selectedElements.get(i).setMoveX(this.x);
+					selectedElements.get(i).setMoveY(this.y);
+					selectedElements.get(i).setMoving(true);
+				}
+			}
+			
+			if(hasEnemy) {
+				if(!bases.contains(enemyBase)) {
+					enemyBase = null;
+					hasEnemy = false;
+				}
+			}
+			
+			if(bases.size() == 1) {
+				victory = true;
+			}
 		}
 	}
 

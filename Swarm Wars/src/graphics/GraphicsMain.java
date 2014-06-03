@@ -144,7 +144,7 @@ public class GraphicsMain extends Canvas implements Runnable  {
 		ArrayList<Base> bases = Main.getLevel().getBases();
 		for(int i = 0; i < bases.size(); i++) {
 			for(int j = 0; j < bases.get(i).getSwarmCount(); j++) {
-				g.setColor(colorArray[bases.get(i).getDrone(j).getColorID()]);
+				g.setColor(bases.get(i).getColor());
 				g.fill(bases.get(i).getDrone(j).getBoundBox());
 			}
 		}
@@ -155,7 +155,7 @@ public class GraphicsMain extends Canvas implements Runnable  {
 		for(int i = 0; i < bases.size(); i++) {
 			Base newBase = bases.get(i);
 			g.drawImage(newBase.getImage(), newBase.getX(), newBase.getY(), newBase.getWidth(), newBase.getHeight(), null);
-			g.setColor(colorArray[bases.get(i).getColorID()].darker().darker());
+			g.setColor(newBase.getColor());
 			g.fillRect(newBase.getX() + 3, newBase.getY() + 3, newBase.getWidth() - 6, newBase.getHeight() - 6);
 		}
 	}
