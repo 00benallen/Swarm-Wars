@@ -35,8 +35,8 @@ public class Main {
 	
 	public static void update() {
 		spawnDrones();
-		moveAllTo();
 		checkArrived();
+		moveAllTo();
 		checkDamage();
 		checkDeath();
 		runAIs();
@@ -71,6 +71,48 @@ public class Main {
 		}
 	}
 	
+	public static void checkArrived() {
+		for(int i = 0; i < bases.size(); i++) {
+			Base base = bases.get(i);
+			if(base.isMoving()) {
+				if(base.getCentreX() == base.getMoveX() && base.getCentreX() == base.getMoveX()) {
+					if(base.getCentreY() == base.getMoveY() && base.getCentreY() == base.getMoveY()) {
+						base.setMoving(false);
+					}
+				}
+			}
+			
+			/*for(int j = 0; j < base.getSwarmCount(); j++) {
+				if(base.isMoving()) {
+					if(base.getX() == base.getMoveX() && base.getX() == base.getMoveX()) {
+						if(base.getY() == base.getMoveY() && base.getY() == base.getMoveY()) {
+							base.setMoving(false);
+						}
+					}
+				}
+			}*/
+		}
+		
+		for(int i = 0; i < bases.size(); i++) {
+			Base element = bases.get(i);
+			for(int j = 0; j < level.getLevelArray().size(); j++) {
+				if(level.getLevelArray().get(j) != null && !(level.getLevelArray().get(j) instanceof Base)) {
+					if(element.getBoundBox().intersects(level.getLevelArray().get(j).getBoundBox())) {
+						element.setMoving(false);
+						
+					}
+					for(int k = 0; k < element.getSwarmCount(); k++) {
+						if(element.getDrone(k).getBoundBox().intersects(level.getLevelArray().get(j).getBoundBox())) {
+							element.getDrone(k).setMoving(false);
+						}
+						
+					}
+					
+				}
+			}
+		}
+	}
+	
 	private static void moveAllTo() {
 		for(int i = 0; i < bases.size(); i++) {
 			LevelElement element = bases.get(i);
@@ -95,46 +137,6 @@ public class Main {
 			}
 		}
 	}
-	
-	public static void checkArrived() {
-		for(int i = 0; i < bases.size(); i++) {
-			LevelElement element = bases.get(i);
-			if(element.isMoving()) {
-				if(element.getX() == element.getMoveX() && element.getX() == element.getMoveX()) {
-					if(element.getY() == element.getMoveY() && element.getY() == element.getMoveY()) {
-						element.setMoving(false);
-					}
-				}
-			}
-			
-			Base baseElement = (Base) element;
-			for(int j = 0; j < baseElement.getSwarmCount(); j++) {
-				element = baseElement.getDrone(j);
-				if(element.isMoving()) {
-					if(element.getX() == element.getMoveX() && element.getX() == element.getMoveX()) {
-						if(element.getY() == element.getMoveY() && element.getY() == element.getMoveY()) {
-							element.setMoving(false);
-						}
-					}
-				}
-			}
-			
-			for(int j = 0; j < level.getLevelArray().size(); j++) {
-				if(element != null && level.getLevelArray().get(j) != null && !(level.getLevelArray().get(j) instanceof Base)) {
-					if(element.getBoundBox().intersects(level.getLevelArray().get(j).getBoundBox())) {
-						element.setMoving(false);
-					}
-					for(int k = 0; k < baseElement.getSwarmCount(); k++) {
-						if(baseElement.getDrone(k).getBoundBox().intersects(level.getLevelArray().get(j).getBoundBox())) {
-							baseElement.getDrone(k).setMoving(false);
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	
 	
 	public static Level getLevel() {
 		return level;
@@ -168,24 +170,6 @@ public class Main {
 	}
 	
 	public static void checkDamage() {
-		for(int i = 0; i < bases.size(); i++) {
-			for(int j = 0; j < bases.get(i).getSwarmCount(); j++) {
-				Drone drone = bases.get(i).getDrone(j);
-				for(int k = i + 1; k < bases.size(); k++) {
-					for(int l = 0; l < bases.get(k).getSwarmCount(); l++) {
-						Drone secondDrone = bases.get(k).getDrone(l);
-						if(drone.getX() > secondDrone.getX() - 10 && drone.getX() < secondDrone.getX() + 10) {
-							if(drone.getY() > secondDrone.getY() - 10 && drone.getY() < secondDrone.getY() + 10) {
-								drone.setHealth(drone.getHealth() - 1);
-								drone.setMoving(false);
-								secondDrone.setHealth(drone.getHealth() - 1);
-								secondDrone.setMoving(false);
-							}
-						}
-					}
-				}
-			}
-		}
 		
 		for(int i = 0; i < bases.size(); i++) {
 			Base checkBase = bases.get(i);
@@ -204,6 +188,26 @@ public class Main {
 				}
 			}
 		} 
+		
+		for(int i = 0; i < bases.size(); i++) {
+			for(int j = 0; j < bases.get(i).getSwarmCount(); j++) {
+				Drone drone = bases.get(i).getDrone(j);
+				for(int k = i + 1; k < bases.size(); k++) {
+					for(int l = 0; l < bases.get(k).getSwarmCount(); l++) {
+						Drone secondDrone = bases.get(k).getDrone(l);
+						if(drone.getX() > secondDrone.getX() - 10 && drone.getX() < secondDrone.getX() + 10) {
+							if(drone.getY() > secondDrone.getY() - 10 && drone.getY() < secondDrone.getY() + 10) {
+								drone.setHealth(drone.getHealth() - 1);
+								drone.setMoving(false);
+								secondDrone.setHealth(drone.getHealth() - 1);
+								secondDrone.setMoving(false);
+							}
+						}
+					}
+				}
+			}
+			System.out.println(bases.get(i).getTeamName() + ": " + bases.get(i).getHealth());
+		}
 	}
 	
 	public static void checkDeath() {

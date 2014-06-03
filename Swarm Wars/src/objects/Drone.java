@@ -25,7 +25,7 @@ public class Drone extends LevelElement{
 		
 		this.setBoundBox(new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight()));
 		setDamage(1);
-		setHealth(2);
+		setHealth(1);
 		
 	}
 
