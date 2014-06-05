@@ -5,6 +5,7 @@ import graphics.GraphicsMain;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Random;
 
 import objects.Base;
 import objects.LevelElement;
@@ -61,22 +62,11 @@ public class Computer {
 			}
 			prevHealth = base.getHealth();
 			
-			if(base.getHealth() < 25) {
+			if(base.getHealth() < 250) {
 				isHurt = true;
 			}
 			
-			if(isHit && !base.isMoving()) {
-				if(base.getX() + 10 < GraphicsMain.WIDTH) {
-					this.base.setMoveX(base.getX() + 10);
-				}
-				else {
-					this.base.setMoveX(base.getX() - 10);
-				}
-				isHit = false;
-				base.setMoving(true);
-			}
-			
-			if(isHurt) {
+			if(isHurt && !base.isMoving()) {
 				avoid(selectedElements);
 			}
 			
@@ -131,21 +121,20 @@ public class Computer {
 	
 	public void avoid(ArrayList<LevelElement> selectedElements) {
 		attacking = false;
-		Rectangle2D selectBox = new Rectangle2D.Double(this.x, this.y, this.width, this.height);
-		for(int j = 0; j < bases.size(); j++) {
-			for(int k = 0; k < bases.get(j).getSwarmCount(); k++) {
-				if(bases.get(j).getTeamName().equals(this.teamName)) {
-					if(selectBox.contains(bases.get(j).getBoundBox()) && !selectedElements.contains(bases.get(j))) {
-						selectedElements.add(bases.get(j));
-					}
-				}
-			}
+		Random rand = new Random();
+		int directionX = rand.nextInt(2);
+		if(directionX == 0) {
+			base.setMoveX(rand.nextInt(base.getCentreX()) + 100);
 		}
-		
-		for(int i = 0; i < selectedElements.size(); i++) {
-			selectedElements.get(i).setMoveX(this.x);
-			selectedElements.get(i).setMoveY(this.y);
-			selectedElements.get(i).setMoving(true);
+		else if(directionX == 1) {
+			base.setMoveX(rand.nextInt(base.getCentreX()) - 100);
+		}
+		int directionY = rand.nextInt(2);
+		if(directionY == 0) {
+			base.setMoveY(rand.nextInt(base.getCentreY()) + 100);
+		}
+		else if(directionY == 1) {
+			base.setMoveY(rand.nextInt(base.getCentreY()) - 100);
 		}
 	}
 

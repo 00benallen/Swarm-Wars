@@ -15,6 +15,7 @@ public class Base extends LevelElement{
 	private ArrayList<Drone> drones;
 	private String name;
 	private Color color;
+	private boolean colliding;
 	
 	public Base(int x, int y, String teamName, Color color) {
 		this.setX(x);
@@ -88,5 +89,13 @@ public class Base extends LevelElement{
 
 	public void setColor(Color color) {
 		this.color = color;
+	}
+
+	public boolean isColliding() {
+		return colliding;
+	}
+
+	public void setColliding(boolean colliding) {
+		this.colliding = colliding;
 	}
 }

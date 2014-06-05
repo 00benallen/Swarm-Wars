@@ -81,34 +81,31 @@ public class Main {
 					}
 				}
 			}
-			
-			/*for(int j = 0; j < base.getSwarmCount(); j++) {
-				if(base.isMoving()) {
-					if(base.getX() == base.getMoveX() && base.getX() == base.getMoveX()) {
-						if(base.getY() == base.getMoveY() && base.getY() == base.getMoveY()) {
-							base.setMoving(false);
-						}
-					}
-				}
-			}*/
 		}
 		
 		for(int i = 0; i < bases.size(); i++) {
 			Base element = bases.get(i);
+			boolean collided = false;
 			for(int j = 0; j < level.getLevelArray().size(); j++) {
 				if(level.getLevelArray().get(j) != null && !(level.getLevelArray().get(j) instanceof Base)) {
-					if(element.getBoundBox().intersects(level.getLevelArray().get(j).getBoundBox())) {
-						element.setMoving(false);
-						
-					}
-					for(int k = 0; k < element.getSwarmCount(); k++) {
-						if(element.getDrone(k).getBoundBox().intersects(level.getLevelArray().get(j).getBoundBox())) {
-							element.getDrone(k).setMoving(false);
+					if(!element.isColliding()) {
+						Rectangle2D boundBox = element.getBoundBox();
+						Rectangle2D futureIntersection = new Rectangle2D.Double(boundBox.getX() - 1, boundBox.getY() - 1, boundBox.getWidth() + 1, element.getHeight() + 1);
+						if(futureIntersection.intersects(level.getLevelArray().get(j).getBoundBox())) {
+							element.setMoving(false);
+							element.setColliding(true);
+							collided = true;
 						}
-						
+						for(int k = 0; k < element.getSwarmCount(); k++) {
+							if(element.getDrone(k).getBoundBox().intersects(level.getLevelArray().get(j).getBoundBox())) {
+								element.getDrone(k).setMoving(false);
+							}
+						}
 					}
-					
-				}
+				}	
+			}
+			if(!collided) {
+				element.setColliding(false);
 			}
 		}
 	}
