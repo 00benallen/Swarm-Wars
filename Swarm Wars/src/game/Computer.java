@@ -106,8 +106,8 @@ public class Computer {
 		}
 		
 		for(int i = 0; i < selectedElements.size(); i++) {
-			selectedElements.get(i).setMoveX(enemyBase.getX());
-			selectedElements.get(i).setMoveY(enemyBase.getY());
+			selectedElements.get(i).setMoveX(enemyBase.getCentreX());
+			selectedElements.get(i).setMoveY(enemyBase.getCentreY());
 			selectedElements.get(i).setMoving(true);
 		}
 	}

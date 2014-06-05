@@ -11,6 +11,7 @@ import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import objects.Base;
 import objects.LevelElement;
@@ -25,9 +26,13 @@ public class GraphicsMain extends Canvas implements Runnable  {
 	boolean running = false;
 	JFrame frame;
 	public static final int  SCALE = 256, WIDTH = 4 * SCALE, HEIGHT = 3 * SCALE;
-	public static final String NAME = "Swarm Wars";
-	private static Graphics2D g;
+	public final String NAME = "Swarm Wars";
+	private Graphics2D g;
 	public static Listener listener = new Listener();
+	private static final int STATE_MENU = 0, STATE_GAME = 1, STATE_WIN = 2, STATE_LOSE = 3;
+	public static int gameState = STATE_MENU;
+	private static GraphicsMain graphicsMain = new GraphicsMain();
+	private Thread thread;
 	
 	public GraphicsMain() {
 		setMinimumSize(new Dimension(WIDTH, HEIGHT));
@@ -37,7 +42,7 @@ public class GraphicsMain extends Canvas implements Runnable  {
 		this.addMouseListener(listener);
 		this.addMouseMotionListener(listener);
 		
-		frame = new JFrame(GraphicsMain.NAME);
+		frame = new JFrame(this.NAME);
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
@@ -53,7 +58,7 @@ public class GraphicsMain extends Canvas implements Runnable  {
 	
 	
 	public static void main(String[] args) {
-		new GraphicsMain().start();
+		graphicsMain.start();
 	}
 
 	@Override
@@ -75,7 +80,9 @@ public class GraphicsMain extends Canvas implements Runnable  {
 				boolean shouldRender = false;
 				
 				while(delta >= 1) {
-					Main.update();
+					if(gameState == STATE_GAME) {
+						Main.update();
+					}
 					delta--;
 					shouldRender = true;
 				}
@@ -89,17 +96,20 @@ public class GraphicsMain extends Canvas implements Runnable  {
 					lastTimer += 100;
 				}
 			}
+			stop();
 		}
 		
 	}
 	
 	public synchronized void start() {
 		running = true;
-		new Thread(this).start();
+		Thread thread = new Thread(this);
+		thread.start();
 	}
 	
 	public synchronized void stop() {
 		running = false;
+		thread = null;
 	}
 	
 	public void render() {
@@ -119,20 +129,48 @@ public class GraphicsMain extends Canvas implements Runnable  {
  		bs.show();
 	}
 	
-	public static void draw() {
-		drawBackground();
-		drawLevel();
-		drawBases();
-		drawDrones();
-		drawSelectionBox();
+	public void draw() {
+		if(gameState == STATE_GAME) {
+			drawBackground();
+			drawLevel();
+			drawBases();
+			drawDrones();
+			drawSelectionBox();
+		}
+		if(gameState == STATE_MENU) {
+			drawStartMessage();
+		}
+		if(gameState == STATE_WIN) {
+			drawWinMessage();
+			this.stop();
+			System.exit(0);
+		}
+		if(gameState == STATE_LOSE) {
+			drawLoseMessage();
+			this.stop();
+			System.exit(0);
+		}
 	}
 	
-	public static void drawBackground() {
+	public void drawStartMessage() {
+		JOptionPane.showMessageDialog(null, "Welcome to Swarm Wars! Select your units by dragging over them, left click if you want the drones to move, and right click if you want your base to move! Kill all enemy bases to win!");
+		gameState = STATE_GAME;
+	}
+	
+	public void drawWinMessage() {
+		JOptionPane.showMessageDialog(null, "You have won! Good work!");
+	}
+	
+	public void drawLoseMessage() {
+		JOptionPane.showMessageDialog(null, "I'm sorry, you lost! Please play again!");
+	}
+	
+	public void drawBackground() {
 		g.setColor(Color.black);
 		g.fillRect(0, 0, WIDTH + 100, HEIGHT + 100);
 	}
 	
-	public static void drawLevel() {
+	public void drawLevel() {
 		ArrayList<LevelElement> levelList = Main.getLevel().getLevelArray();
 		for(int i = 0; i < levelList.size(); i++) {
 			LevelElement element = levelList.get(i);
@@ -143,7 +181,7 @@ public class GraphicsMain extends Canvas implements Runnable  {
 		
 	}
 	
-	public static void drawDrones() {
+	public void drawDrones() {
 		ArrayList<Base> bases = Main.getLevel().getBases();
 		for(int i = 0; i < bases.size(); i++) {
 			for(int j = 0; j < bases.get(i).getSwarmCount(); j++) {
@@ -153,7 +191,7 @@ public class GraphicsMain extends Canvas implements Runnable  {
 		}
 	}
 	
-	public static void drawBases() {
+	public void drawBases() {
 		ArrayList<Base> bases = Main.getBases();
 		for(int i = 0; i < bases.size(); i++) {
 			Base newBase = bases.get(i);
@@ -163,7 +201,7 @@ public class GraphicsMain extends Canvas implements Runnable  {
 		}
 	}
 	
-	public static void drawSelectionBox() {
+	public void drawSelectionBox() {
 		if(listener.getSelectionBox() != null) {
 			g.draw(listener.getSelectionBox());
 		}

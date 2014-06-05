@@ -46,6 +46,7 @@ public class Main {
 		checkDamage();
 		checkDeath();
 		runAIs();
+		checkWinOrLose();
 	}
 	
 	private static void spawnDrones() { //spawns drones each second
@@ -214,6 +215,23 @@ public class Main {
 		for(int i = 0; i < computers.size(); i++) {
 			computers.get(i).runAI();
 		}
+	}
+	
+	public static void checkWinOrLose() {
+		boolean playerAlive = false;
+		for(int i = 0; i < bases.size(); i++) {
+			if(bases.get(i).getTeamName().equals(player1.getName())) {
+				playerAlive = true;
+			}
+		}
+		
+		if(playerAlive && bases.size() == 1) {
+			GraphicsMain.gameState = 2;
+		}
+		else if(!playerAlive) {
+			GraphicsMain.gameState = 3;
+		}
+		
 	}
 	
 	public static Level getLevel() {
