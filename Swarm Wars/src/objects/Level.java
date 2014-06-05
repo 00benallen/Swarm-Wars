@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import graphics.GraphicsMain;
 
-public class Level {
+public class Level { //stores the initial level data from the text file
 	private int width = GraphicsMain.WIDTH/64,  height = GraphicsMain.HEIGHT/64;
 	private ArrayList<LevelElement> level;
 	private ArrayList<Base> bases;
@@ -12,7 +12,6 @@ public class Level {
 	public Level() {
 		level = new ArrayList<LevelElement>();
 		setBases(new ArrayList<Base>());
-		
 	}
 
 	public ArrayList<LevelElement> getLevelArray() {

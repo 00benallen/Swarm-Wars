@@ -26,7 +26,7 @@ public class Main {
 		bases = level.getBases();
 		selectedElements = new ArrayList<LevelElement>();
 		
-		for(int i = 0; i < bases.size(); i++) {
+		for(int i = 0; i < bases.size(); i++) { //creates a computer list from the bases list
 			if(bases.get(i).getTeamName().substring(0, 4).equals("Comp")) {
 				computers.add(new Computer(bases.get(i).getTeamName(), bases.get(i)));
 			}
@@ -42,7 +42,7 @@ public class Main {
 		runAIs();
 	}
 	
-	private static void spawnDrones() {
+	private static void spawnDrones() { //spawns drones each second
 		long curTime = System.nanoTime();
 		
 		if(curTime - lastDroneSpawn > 1000000000L) {
@@ -53,7 +53,7 @@ public class Main {
 		}
 	}
 	
-	public static void selectItems() {
+	public static void selectItems() { //selects elements inside of the listener's select box
 		if(GraphicsMain.listener.itemsSelected()) {
 			Rectangle2D selectBox = GraphicsMain.listener.getSelectionBox();
 			for(int j = 0; j < bases.size(); j++) {
@@ -71,7 +71,7 @@ public class Main {
 		}
 	}
 	
-	public static void checkArrived() {
+	public static void checkArrived() { //checks if an element has reached its destination or is colliding with something
 		for(int i = 0; i < bases.size(); i++) {
 			Base base = bases.get(i);
 			if(base.isMoving()) {
@@ -110,7 +110,7 @@ public class Main {
 		}
 	}
 	
-	private static void moveAllTo() {
+	private static void moveAllTo() { //performs calculations to move all elements one tick forward in their "flight path"
 		for(int i = 0; i < bases.size(); i++) {
 			LevelElement element = bases.get(i);
 			if(element.isMoving()) {
@@ -135,15 +135,7 @@ public class Main {
 		}
 	}
 	
-	public static Level getLevel() {
-		return level;
-	}
-	
-	public static ArrayList<Base> getBases() {
-		return bases;
-	}
-	
-	public static void setMovePoints(int x, int y) {
+	public static void setMovePoints(int x, int y) { //run by listener, gives selected elements their move points and tells them to move
 		for(int i = 0; i < selectedElements.size(); i++) {
 			boolean dronesMove, baseMove;
 			if(GraphicsMain.listener.rightClick()) {
@@ -162,19 +154,12 @@ public class Main {
 		}
 	}
 	
-	public static void resetSelection() {
-		selectedElements = new ArrayList<LevelElement>();
-	}
-	
-	public static void checkDamage() {
-		
+	public static void checkDamage() { //checks if things are close enough for damage
 		for(int i = 0; i < bases.size(); i++) {
 			Base checkBase = bases.get(i);
 			for(int j = 0; j < bases.size() - 1; j++) {
 				for(int k = 0; k < bases.get(j).getSwarmCount(); k++) {
-
 					Drone checkDrone = bases.get(j).getDrone(k);
-
 					if(checkDrone.getX() > checkBase.getCentreX() - 25 && checkDrone.getX() < checkBase.getCentreX() + 25) {
 						if(checkDrone.getY() > checkBase.getCentreY() - 25 && checkDrone.getY() < checkBase.getCentreY() + 25) {
 							if(!checkDrone.getTeamName().equals(checkBase.getTeamName())) {
@@ -203,11 +188,10 @@ public class Main {
 					}
 				}
 			}
-			System.out.println(bases.get(i).getTeamName() + ": " + bases.get(i).getHealth());
 		}
 	}
 	
-	public static void checkDeath() {
+	public static void checkDeath() { //checks if things have no health, and should be deleted
 		for(int i = 0; i < bases.size(); i++) {
 			for(int j = 0; j < bases.get(i).getSwarmCount(); j++) {
 				if(bases.get(i).getDrone(j).getHealth() <= 0) {
@@ -220,10 +204,22 @@ public class Main {
 		} 
 	}
 	
-	public static void runAIs() {
+	public static void runAIs() { //runs all the AIs
 		for(int i = 0; i < computers.size(); i++) {
 			computers.get(i).runAI();
 		}
+	}
+	
+	public static Level getLevel() {
+		return level;
+	}
+	
+	public static ArrayList<Base> getBases() {
+		return bases;
+	}
+	
+	public static void resetSelection() {
+		selectedElements = new ArrayList<LevelElement>();
 	}
 
 }

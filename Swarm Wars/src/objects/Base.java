@@ -17,7 +17,7 @@ public class Base extends LevelElement{
 	private Color color;
 	private boolean colliding;
 	
-	public Base(int x, int y, String teamName, Color color) {
+	public Base(int x, int y, String teamName, Color color) { //base constructor
 		this.setX(x);
 		this.setY(y);
 		this.setWidth(32);
@@ -48,7 +48,7 @@ public class Base extends LevelElement{
 		swarmCount--;
 	}
 	
-	public void spawnDrones() {
+	public void spawnDrones() { //spawns drones when told to
 		Random rand = new Random();
 		for(int i = 0; i < spawnNum; i++) {
 			int x = rand.nextInt(this.getWidth()) + this.getX();

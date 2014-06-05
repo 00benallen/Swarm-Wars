@@ -1,7 +1,5 @@
 package game;
 
-import graphics.GraphicsMain;
-
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -15,7 +13,7 @@ public class Computer {
 	private Base base;
 	private int x, y, width, height;
 	
-	public Computer(String teamName, Base base) {
+	public Computer(String teamName, Base base) { //constructor for all AIs
 		this.teamName = teamName;
 		this.setBase(base);
 		x = base.getX();
@@ -32,17 +30,16 @@ public class Computer {
 		return teamName;
 	}
 	
-	private boolean hasEnemy, isHit, isHurt, attacking, victory;
+	private boolean hasEnemy, isHurt, attacking, victory;
 	private Base enemyBase = null;
-	private int prevHealth = -1;
 	ArrayList<Base> bases = Main.getBases();
 	
-	public void runAI() {
+	public void runAI() { //AI code for all AIs
 		ArrayList<LevelElement> selectedElements = new ArrayList<LevelElement>();
 		if(!victory) {
 			
 			if(!hasEnemy) {
-				getEnemy();
+				getEnemy(); //finds the nearest enemy
 			}
 			
 			if(hasEnemy && !isHurt) {
@@ -53,21 +50,11 @@ public class Computer {
 			}
 			
 			if(attacking) {
-				attack(selectedElements);
+				attack(selectedElements); //sends all drones above the base to the enemy base
 			}
-			
-			if(prevHealth > base.getHealth() && base.isMoving() == false) {
-				isHit = true;
-				
-			}
-			prevHealth = base.getHealth();
 			
 			if(base.getHealth() < 250) {
 				isHurt = true;
-			}
-			
-			if(isHurt && !base.isMoving()) {
-				avoid(selectedElements);
 			}
 			
 			if(hasEnemy) {
@@ -116,25 +103,6 @@ public class Computer {
 			selectedElements.get(i).setMoveX(enemyBase.getX());
 			selectedElements.get(i).setMoveY(enemyBase.getY());
 			selectedElements.get(i).setMoving(true);
-		}
-	}
-	
-	public void avoid(ArrayList<LevelElement> selectedElements) {
-		attacking = false;
-		Random rand = new Random();
-		int directionX = rand.nextInt(2);
-		if(directionX == 0) {
-			base.setMoveX(rand.nextInt(base.getCentreX()) + 100);
-		}
-		else if(directionX == 1) {
-			base.setMoveX(rand.nextInt(base.getCentreX()) - 100);
-		}
-		int directionY = rand.nextInt(2);
-		if(directionY == 0) {
-			base.setMoveY(rand.nextInt(base.getCentreY()) + 100);
-		}
-		else if(directionY == 1) {
-			base.setMoveY(rand.nextInt(base.getCentreY()) - 100);
 		}
 	}
 

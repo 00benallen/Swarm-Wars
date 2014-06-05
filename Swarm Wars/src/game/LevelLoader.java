@@ -25,7 +25,7 @@ public class LevelLoader {
 		
 		int playerCnt = 0 , cmpCnt = 0;
 		Random rand = new Random();
-		for(int i = 0; i < level.getHeight(); i++) {
+		for(int i = 0; i < level.getHeight(); i++) { //reads the level and adds elements to a list depending on the characters it finds
 			String line = s.nextLine();
 			for(int j = 0; j < line.length(); j++) {
 				if(line.charAt(j) == 'W') {
@@ -48,6 +48,7 @@ public class LevelLoader {
 				}
 			}
 		}
+		s.close();
 		return level;
 	}
 
