@@ -10,6 +10,12 @@ import objects.Base;
 import objects.Level;
 import objects.Wall;
 
+/**
+ * Class that loads and creates level objects from text files
+ * @author Ben Pinhorn
+ * @version 1.0
+ *
+ */
 public class LevelLoader {
 	
 	public static Level loadLevel(String fileName) {

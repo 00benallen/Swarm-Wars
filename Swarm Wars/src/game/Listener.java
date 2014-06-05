@@ -6,6 +6,12 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * Listens to the mouse, so the user can create selection boxes and click move locations
+ * @author Ben Pinhorn
+ * @version 1.0
+ *
+ */
 public class Listener implements MouseListener, MouseMotionListener {
 	private Point2D firstPoint;
 	private Rectangle2D selectRect;

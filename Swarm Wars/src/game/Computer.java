@@ -8,6 +8,12 @@ import java.util.Random;
 import objects.Base;
 import objects.LevelElement;
 
+
+/**
+ * Class that contains the AI for the computer opponents, has access to lots of data from all over the game
+ * @author Ben Pinhorn
+ * @version 1.0
+ */
 public class Computer {
 	private String teamName;
 	private Base base;
