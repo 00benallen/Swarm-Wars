@@ -3,6 +3,11 @@ package objects;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+/**
+ * Abstract class for all objects that exist within a level, allows them to be stored together in lists and differentiated later
+ * @author Ben Pinhorn
+ * @version 1.0
+ */
 public abstract class LevelElement {
 	private int x, y, width, height, moveX, moveY, centreX, centreY;
 	private BufferedImage image;

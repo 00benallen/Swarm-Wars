@@ -8,7 +8,11 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
-
+/**
+ * Defines the parameters for a Base object, this is both a screen and a logic object, as it contains screen and logic data
+ * @author Ben Pinhorn
+ * @version 1.0
+ */
 public class Base extends LevelElement{
 	private int health, spawnNum = 10;
 	private int swarmCount;

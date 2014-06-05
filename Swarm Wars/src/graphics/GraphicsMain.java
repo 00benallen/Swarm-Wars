@@ -15,6 +15,11 @@ import javax.swing.JFrame;
 import objects.Base;
 import objects.LevelElement;
 
+/**
+ * Graphics class for Swarm Wars, draws all of the screen objects for the game. Also contains the run loop and the main method, starts the new thread for the game.
+ * @author Ben Pinhorn
+ * @version 1.0
+ */
 public class GraphicsMain extends Canvas implements Runnable  {
 	private static final long serialVersionUID = 8452193232912354072L;
 	boolean running = false;

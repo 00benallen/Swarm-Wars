@@ -11,6 +11,12 @@ import objects.Level;
 import objects.LevelElement;
 import objects.Player;
 
+
+/**
+ * Main class for Swarm Wars, acts as the backend, runs most of its methods once per tick, and also contains some methods run by the listener
+ * @author Ben Pinhorn
+ * @version 1.0
+ */
 public class Main {
 	private static Level level;
 	private static Player player1;

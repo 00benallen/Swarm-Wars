@@ -3,6 +3,11 @@ package objects;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+/**
+ * Defines the parameters for a Drone object, drones are always contained within an array list inside of a Base object, but interact with other Drones and Bases causing damage and taking damage
+ * @author Ben Pinhorn
+ * @version 1.0
+ */
 public class Drone extends LevelElement{
 	private BufferedImage image;
 	private int damage, health;

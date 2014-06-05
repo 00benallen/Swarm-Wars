@@ -1,4 +1,10 @@
 package game;
+
+/**
+ * Math class that is designed to receive the difference in distance between two points, and act as a 2D vector
+ * @author Ben Pinhorn
+ *
+ */
 public class Vector2D { //math class that helps the Main class know where to move each element each tick
 	private float x, y;
 	

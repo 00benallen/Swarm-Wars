@@ -6,6 +6,11 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Defines the parameters for a wall object, these outline the edge of the level so objects cannot leave the screen
+ * @author Ben Pinhorn
+ * @version 1.0
+ */
 public class Wall extends LevelElement {
 
 	public Wall(int x, int y) {

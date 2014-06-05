@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 import graphics.GraphicsMain;
 
+/**
+ * Defines the parameters for a Level object, which contains the initial data for a level, some of which changes as the game progresses
+ * @author Ben Pinhorn
+ * @version 1.0
+ */
 public class Level { //stores the initial level data from the text file
 	private int width = GraphicsMain.WIDTH/64,  height = GraphicsMain.HEIGHT/64;
 	private ArrayList<LevelElement> level;
